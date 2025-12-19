@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { X, Navigation, Zap, Star, MapPin } from "lucide-react";
 import type { ChargingStation } from "@shared/schema";
+import cashAppQR from "@assets/IMG_0285_1766111363053.jpeg";
 
 type ChargingStationWithDistance = ChargingStation & { distance: number };
 
@@ -138,30 +139,39 @@ export default function Home() {
       {/* Charging Stations Button - Bottom Right */}
       {!isNavigating && (
         <div className="absolute bottom-20 right-4 z-10 flex flex-col gap-2 items-end">
-          <a
-            href="https://github.com/sponsors/shanemrussell888-coder"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="relative flex items-center justify-center"
-            data-testid="button-support-us"
-          >
-            <svg viewBox="0 0 100 87" className="w-20 h-[70px] absolute">
-              <polygon 
-                points="50,0 100,25 100,62 50,87 0,62 0,25" 
-                fill="none" 
-                stroke="black" 
-                strokeWidth="6"
+          <div className="flex flex-col items-center gap-1">
+            <div className="bg-white p-1 rounded-md shadow-lg border-2 border-black">
+              <img 
+                src={cashAppQR} 
+                alt="CashApp QR Code" 
+                className="w-16 h-16 rounded-sm"
+                data-testid="img-qr-code"
               />
-            </svg>
-            <div 
-              className="bg-green-700 hover:bg-green-600 flex flex-col items-center justify-center w-[72px] h-[62px] text-black"
-              style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
-            >
-              <span className="text-black text-xs font-bold">$</span>
-              <span className="text-[7px] leading-tight text-center text-black font-bold">SUPPORT US<br/>CLICK HERE!</span>
-              <span className="text-[5px] text-black font-semibold">CashApp: $ManSco0311</span>
             </div>
-          </a>
+            <a
+              href="https://github.com/sponsors/shanemrussell888-coder"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative flex items-center justify-center"
+              data-testid="button-support-us"
+            >
+              <svg viewBox="0 0 100 87" className="w-16 h-[56px] absolute">
+                <polygon 
+                  points="50,0 100,25 100,62 50,87 0,62 0,25" 
+                  fill="none" 
+                  stroke="black" 
+                  strokeWidth="6"
+                />
+              </svg>
+              <div 
+                className="bg-green-700 hover:bg-green-600 flex flex-col items-center justify-center w-[58px] h-[50px] text-black"
+                style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+              >
+                <span className="text-[6px] leading-tight text-center text-black font-bold">SUPPORT US</span>
+                <span className="text-[5px] text-black font-semibold">$ManSco0311</span>
+              </div>
+            </a>
+          </div>
           <button
             onClick={fetchNearbyStations}
             className="relative bg-white text-gray-800 text-xs font-medium px-4 py-2.5 rounded-md shadow-lg flex items-center gap-2 overflow-hidden border border-gray-200 hover:bg-gray-50"
