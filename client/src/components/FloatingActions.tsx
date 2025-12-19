@@ -26,7 +26,7 @@ export function FloatingActions() {
         onClick={() => setShowSettings(true)}
         data-testid="button-open-settings"
       >
-        <Settings className="h-5 w-5" />
+        <Settings className="h-5 w-5 ml-0.5" />
       </Button>
 
       <Button
