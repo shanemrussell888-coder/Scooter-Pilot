@@ -139,39 +139,35 @@ export default function Home() {
       {/* Charging Stations Button - Bottom Right */}
       {!isNavigating && (
         <div className="absolute bottom-20 right-4 z-10 flex flex-col gap-2 items-end">
-          <div className="flex flex-col items-center gap-1">
-            <div className="bg-white p-1 rounded-md shadow-lg border-2 border-black">
+          <a
+            href="https://github.com/sponsors/shanemrussell888-coder"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative flex items-center justify-center"
+            data-testid="button-support-us"
+          >
+            <svg viewBox="0 0 100 87" className="w-24 h-[84px] absolute">
+              <polygon 
+                points="50,0 100,25 100,62 50,87 0,62 0,25" 
+                fill="none" 
+                stroke="black" 
+                strokeWidth="5"
+              />
+            </svg>
+            <div 
+              className="bg-green-700 hover:bg-green-600 flex flex-col items-center justify-center w-[88px] h-[76px] text-black p-1"
+              style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+            >
               <img 
                 src={cashAppQR} 
                 alt="CashApp QR Code" 
-                className="w-16 h-16 rounded-sm"
+                className="w-10 h-10 rounded-sm bg-white"
                 data-testid="img-qr-code"
               />
+              <span className="text-[6px] leading-tight text-center text-black font-bold mt-0.5">SUPPORT US</span>
+              <span className="text-[5px] text-black font-semibold">$ManSco0311</span>
             </div>
-            <a
-              href="https://github.com/sponsors/shanemrussell888-coder"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative flex items-center justify-center"
-              data-testid="button-support-us"
-            >
-              <svg viewBox="0 0 100 87" className="w-16 h-[56px] absolute">
-                <polygon 
-                  points="50,0 100,25 100,62 50,87 0,62 0,25" 
-                  fill="none" 
-                  stroke="black" 
-                  strokeWidth="6"
-                />
-              </svg>
-              <div 
-                className="bg-green-700 hover:bg-green-600 flex flex-col items-center justify-center w-[58px] h-[50px] text-black"
-                style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
-              >
-                <span className="text-[6px] leading-tight text-center text-black font-bold">SUPPORT US</span>
-                <span className="text-[5px] text-black font-semibold">$ManSco0311</span>
-              </div>
-            </a>
-          </div>
+          </a>
           <button
             onClick={fetchNearbyStations}
             className="relative flex items-center shadow-lg hover:scale-105 transition-transform"
