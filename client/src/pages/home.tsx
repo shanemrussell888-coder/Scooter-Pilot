@@ -142,13 +142,13 @@ export default function Home() {
             href="https://github.com/sponsors/shanemrussell888-coder"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white text-gray-800 text-[10px] font-bold px-3 py-3 shadow-lg border-2 border-gray-300 hover:bg-gray-50 flex flex-col items-center gap-0.5"
+            className="bg-green-500 text-black text-[10px] font-bold px-3 py-3 shadow-lg border-[3px] border-black hover:bg-green-400 flex flex-col items-center gap-0.5"
             style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
             data-testid="button-support-us"
           >
-            <span className="text-green-500 text-sm font-bold">$</span>
-            <span className="text-[8px] leading-tight text-center">SUPPORT US<br/>CLICK HERE!</span>
-            <span className="text-[6px] text-gray-500 mt-0.5">CashApp accepted</span>
+            <span className="text-black text-sm font-bold">$</span>
+            <span className="text-[8px] leading-tight text-center text-black font-bold">SUPPORT US<br/>CLICK HERE!</span>
+            <span className="text-[6px] text-black mt-0.5 font-semibold">CashApp accepted</span>
           </a>
           <button
             onClick={fetchNearbyStations}
