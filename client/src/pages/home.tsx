@@ -179,18 +179,22 @@ export default function Home() {
               <div className="bg-gradient-to-b from-gray-300 to-gray-400 w-3 h-5 rounded-sm border border-gray-500" />
               <div className="relative bg-gradient-to-b from-yellow-400 via-yellow-500 to-yellow-600 h-10 px-3 flex items-center gap-1.5 border-2 border-gray-700 rounded-sm overflow-hidden">
                 <div className="absolute left-0 top-0 bottom-0 flex items-end gap-[2px] px-0.5">
-                  <div className="w-[2px] bg-green-600 rounded-t-sm animate-pulse" style={{ height: '30%', animationDelay: '0ms' }} />
-                  <div className="w-[2px] bg-green-500 rounded-t-sm animate-pulse" style={{ height: '50%', animationDelay: '150ms' }} />
-                  <div className="w-[2px] bg-green-400 rounded-t-sm animate-pulse" style={{ height: '70%', animationDelay: '300ms' }} />
+                  <div className="w-[2px] bg-red-600 rounded-t-sm animate-pulse" style={{ height: '30%', animationDelay: '0ms' }} />
+                  <div className="w-[2px] bg-red-500 rounded-t-sm animate-pulse" style={{ height: '50%', animationDelay: '150ms' }} />
+                  <div className="w-[2px] bg-green-600 rounded-t-sm animate-pulse" style={{ height: '30%', animationDelay: '100ms' }} />
+                  <div className="w-[2px] bg-green-500 rounded-t-sm animate-pulse" style={{ height: '50%', animationDelay: '250ms' }} />
+                  <div className="w-[2px] bg-green-400 rounded-t-sm animate-pulse" style={{ height: '70%', animationDelay: '400ms' }} />
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="ml-2">
                   <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                 </svg>
                 <span className="text-[10px] font-bold text-black whitespace-nowrap">Charge Stations</span>
                 <div className="absolute right-0 top-0 bottom-0 flex items-end gap-[2px] px-0.5">
-                  <div className="w-[2px] bg-green-400 rounded-t-sm animate-pulse" style={{ height: '70%', animationDelay: '300ms' }} />
-                  <div className="w-[2px] bg-green-500 rounded-t-sm animate-pulse" style={{ height: '50%', animationDelay: '150ms' }} />
-                  <div className="w-[2px] bg-green-600 rounded-t-sm animate-pulse" style={{ height: '30%', animationDelay: '0ms' }} />
+                  <div className="w-[2px] bg-green-400 rounded-t-sm animate-pulse" style={{ height: '70%', animationDelay: '400ms' }} />
+                  <div className="w-[2px] bg-green-500 rounded-t-sm animate-pulse" style={{ height: '50%', animationDelay: '250ms' }} />
+                  <div className="w-[2px] bg-green-600 rounded-t-sm animate-pulse" style={{ height: '30%', animationDelay: '100ms' }} />
+                  <div className="w-[2px] bg-red-500 rounded-t-sm animate-pulse" style={{ height: '50%', animationDelay: '150ms' }} />
+                  <div className="w-[2px] bg-red-600 rounded-t-sm animate-pulse" style={{ height: '30%', animationDelay: '0ms' }} />
                 </div>
               </div>
               <div className="bg-gradient-to-b from-gray-600 to-gray-800 w-2 h-4 rounded-r-sm" />
