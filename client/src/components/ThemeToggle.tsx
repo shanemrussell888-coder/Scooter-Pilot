@@ -1,11 +1,15 @@
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useMapStore } from "@/lib/mapStore";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 
 export function ThemeToggle() {
   const { preferences, setPreferences } = useMapStore();
   const isDark = preferences.darkMode;
+
+  useLayoutEffect(() => {
+    document.documentElement.classList.add("dark");
+  }, []);
 
   useEffect(() => {
     if (isDark) {

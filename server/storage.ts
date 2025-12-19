@@ -9,6 +9,7 @@ import type {
   SpeedOption,
   RouteSegment,
   LaneType,
+  ChargingStation,
 } from "@shared/schema";
 
 // Simulated location database for NYC area
@@ -71,7 +72,90 @@ export interface IStorage {
   getRoute(id: string): Promise<Route | undefined>;
   getWeather(): Promise<Weather>;
   getHazards(): Promise<Hazard[]>;
+  getChargingStations(): Promise<ChargingStation[]>;
+  getChargingStationsNearRoute(routeId: string): Promise<ChargingStation[]>;
 }
+
+// Sample charging stations in NYC area
+const SAMPLE_CHARGING_STATIONS: ChargingStation[] = [
+  {
+    id: "cs1",
+    name: "Central Park Charging Hub",
+    location: { lat: 40.7812, lng: -73.9665 },
+    address: "59th St & 5th Ave, New York, NY",
+    type: "public",
+    available: true,
+    connectorTypes: ["Type 2", "CCS"],
+    pricePerKwh: 0.35,
+    rating: 4.5,
+  },
+  {
+    id: "cs2",
+    name: "Times Square EV Station",
+    location: { lat: 40.7590, lng: -73.9845 },
+    address: "1540 Broadway, New York, NY",
+    type: "public",
+    available: true,
+    connectorTypes: ["Type 2", "CHAdeMO"],
+    pricePerKwh: 0.45,
+    rating: 4.2,
+  },
+  {
+    id: "cs3",
+    name: "Union Square Charging Point",
+    location: { lat: 40.7362, lng: -73.9902 },
+    address: "14th St & Broadway, New York, NY",
+    type: "public",
+    available: false,
+    connectorTypes: ["Type 2"],
+    pricePerKwh: 0.30,
+    rating: 4.0,
+  },
+  {
+    id: "cs4",
+    name: "Chelsea Market Power Station",
+    location: { lat: 40.7420, lng: -74.0055 },
+    address: "75 9th Ave, New York, NY",
+    type: "shared",
+    available: true,
+    connectorTypes: ["Type 2", "CCS", "Tesla"],
+    pricePerKwh: 0.40,
+    rating: 4.7,
+  },
+  {
+    id: "cs5",
+    name: "SoHo Quick Charge",
+    location: { lat: 40.7245, lng: -74.0020 },
+    address: "Spring St & Broadway, New York, NY",
+    type: "public",
+    available: true,
+    connectorTypes: ["CCS", "CHAdeMO"],
+    pricePerKwh: 0.50,
+    rating: 3.8,
+  },
+  {
+    id: "cs6",
+    name: "Brooklyn Bridge Station",
+    location: { lat: 40.7075, lng: -73.9950 },
+    address: "Park Row, New York, NY",
+    type: "public",
+    available: true,
+    connectorTypes: ["Type 2", "CCS"],
+    pricePerKwh: 0.38,
+    rating: 4.3,
+  },
+  {
+    id: "cs7",
+    name: "Flatiron District Charger",
+    location: { lat: 40.7400, lng: -73.9880 },
+    address: "23rd St & Broadway, New York, NY",
+    type: "public",
+    available: true,
+    connectorTypes: ["Type 2"],
+    pricePerKwh: 0.32,
+    rating: 4.1,
+  },
+];
 
 // Generate route segments with realistic lane types
 function generateRouteSegments(
@@ -236,6 +320,54 @@ export class MemStorage implements IStorage {
   async getHazards(): Promise<Hazard[]> {
     return SAMPLE_HAZARDS;
   }
+  
+  async getChargingStations(): Promise<ChargingStation[]> {
+    return SAMPLE_CHARGING_STATIONS;
+  }
+  
+  async getChargingStationsNearRoute(routeId: string): Promise<ChargingStation[]> {
+    const route = await this.getRoute(routeId);
+    if (!route) return [];
+    
+    const allStations = SAMPLE_CHARGING_STATIONS;
+    const nearbyStations: ChargingStation[] = [];
+    
+    for (const station of allStations) {
+      for (const segment of route.segments) {
+        const distToStart = haversineDistance(
+          station.location.lat, station.location.lng,
+          segment.startCoord.lat, segment.startCoord.lng
+        );
+        const distToEnd = haversineDistance(
+          station.location.lat, station.location.lng,
+          segment.endCoord.lat, segment.endCoord.lng
+        );
+        
+        if (Math.min(distToStart, distToEnd) < 500) {
+          if (!nearbyStations.some(s => s.id === station.id)) {
+            nearbyStations.push(station);
+          }
+          break;
+        }
+      }
+    }
+    
+    return nearbyStations;
+  }
+}
+
+function haversineDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371000;
+  const phi1 = lat1 * Math.PI / 180;
+  const phi2 = lat2 * Math.PI / 180;
+  const deltaPhi = (lat2 - lat1) * Math.PI / 180;
+  const deltaLambda = (lng2 - lng1) * Math.PI / 180;
+  
+  const a = Math.sin(deltaPhi / 2) ** 2 +
+    Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  
+  return R * c;
 }
 
 export const storage = new MemStorage();

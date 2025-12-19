@@ -102,6 +102,20 @@ export const userPreferencesSchema = z.object({
 });
 export type UserPreferences = z.infer<typeof userPreferencesSchema>;
 
+// Charging station schema
+export const chargingStationSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  location: coordinateSchema,
+  address: z.string(),
+  type: z.enum(["public", "private", "shared"]),
+  available: z.boolean(),
+  connectorTypes: z.array(z.string()),
+  pricePerKwh: z.number().optional(),
+  rating: z.number().min(0).max(5).optional(),
+});
+export type ChargingStation = z.infer<typeof chargingStationSchema>;
+
 // Insert schemas
 export const insertRouteSchema = z.object({
   origin: coordinateSchema,

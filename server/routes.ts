@@ -74,5 +74,27 @@ export async function registerRoutes(
     }
   });
 
+  // Get all charging stations
+  app.get("/api/charging-stations", async (req, res) => {
+    try {
+      const stations = await storage.getChargingStations();
+      res.json(stations);
+    } catch (error) {
+      console.error("Charging stations fetch error:", error);
+      res.status(500).json({ error: "Failed to fetch charging stations" });
+    }
+  });
+
+  // Get charging stations near a route
+  app.get("/api/routes/:id/charging-stations", async (req, res) => {
+    try {
+      const stations = await storage.getChargingStationsNearRoute(req.params.id);
+      res.json(stations);
+    } catch (error) {
+      console.error("Nearby charging stations fetch error:", error);
+      res.status(500).json({ error: "Failed to fetch nearby charging stations" });
+    }
+  });
+
   return httpServer;
 }
