@@ -64,7 +64,7 @@ export function QuickDestinations() {
             <Button
               key={dest.id}
               variant="secondary"
-              className="flex-1 h-auto py-2 flex-col gap-1"
+              className="flex-1 h-auto py-2 flex-col gap-1 bg-teal-500 hover:bg-teal-600 text-white dark:bg-teal-600 dark:hover:bg-teal-700"
               onClick={() => handleSelectDestination(dest)}
               data-testid={`quick-dest-${dest.id}`}
             >

@@ -85,13 +85,30 @@ export default function Home() {
       {!isNavigating && (
         <div className="absolute bottom-4 left-4 z-10">
           <div className="bg-card/90 backdrop-blur-sm rounded-md p-2 shadow-lg">
-            <p className="text-xs text-muted-foreground mb-1">Lane Types</p>
+            <p className="text-xs font-bold text-muted-foreground mb-1">Lane Types</p>
             <div className="flex gap-2">
               <Badge className="bg-green-500 text-white text-xs">Protected</Badge>
               <Badge className="bg-yellow-500 text-black text-xs">Shared</Badge>
               <Badge className="bg-red-500 text-white text-xs">None</Badge>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Charging Stations Button - Bottom Right */}
+      {!isNavigating && (
+        <div className="absolute bottom-4 right-4 z-10">
+          <button
+            className="bg-teal-500 hover:bg-teal-600 text-white text-xs font-medium px-3 py-2 rounded-md shadow-lg flex items-center gap-1.5"
+            data-testid="button-charging-stations"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3.19M15 6h2.81A2 2 0 0 1 20 8v8a2 2 0 0 1-2 2h-2" />
+              <line x1="23" y1="13" x2="23" y2="11" />
+              <polyline points="11 6 7 12 13 12 9 18" />
+            </svg>
+            Charge Stations Nearby
+          </button>
         </div>
       )}
     </div>
