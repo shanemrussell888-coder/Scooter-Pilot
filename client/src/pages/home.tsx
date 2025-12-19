@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { MapView } from "@/components/MapView";
 import { SearchBar } from "@/components/SearchBar";
 import { RoutePanel } from "@/components/RoutePanel";
@@ -9,9 +10,48 @@ import { NavigationPanel } from "@/components/NavigationPanel";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useMapStore } from "@/lib/mapStore";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { X, Navigation, Zap, Star, MapPin } from "lucide-react";
+import type { ChargingStation } from "@shared/schema";
+
+type ChargingStationWithDistance = ChargingStation & { distance: number };
 
 export default function Home() {
-  const { isNavigating, preferences } = useMapStore();
+  const { isNavigating, currentLocation } = useMapStore();
+  const [showStations, setShowStations] = useState(false);
+  const [stations, setStations] = useState<ChargingStationWithDistance[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchNearbyStations = async () => {
+    if (!currentLocation) {
+      alert("Please enable location services to find nearby charging stations.");
+      return;
+    }
+    
+    setLoading(true);
+    setShowStations(true);
+    
+    try {
+      const response = await fetch(
+        `/api/charging-stations/nearby?lat=${currentLocation.lat}&lng=${currentLocation.lng}&radius=10000`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setStations(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch charging stations:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatDistance = (meters: number) => {
+    if (meters < 1000) {
+      return `${Math.round(meters)}m`;
+    }
+    return `${(meters / 1000).toFixed(1)}km`;
+  };
 
   return (
     <div className="relative h-screen w-screen overflow-hidden">
@@ -109,7 +149,8 @@ export default function Home() {
             SUPPORT US CLICK HERE!
           </a>
           <button
-            className="relative bg-white text-gray-800 text-xs font-medium px-4 py-2.5 rounded-md shadow-lg flex items-center gap-2 overflow-hidden border border-gray-200"
+            onClick={fetchNearbyStations}
+            className="relative bg-white text-gray-800 text-xs font-medium px-4 py-2.5 rounded-md shadow-lg flex items-center gap-2 overflow-hidden border border-gray-200 hover:bg-gray-50"
             data-testid="button-charging-stations"
           >
             <div className="absolute inset-0 flex items-center justify-between px-1 pointer-events-none">
@@ -131,6 +172,95 @@ export default function Home() {
             </svg>
             <span className="relative z-10">Charge Stations Nearby</span>
           </button>
+        </div>
+      )}
+
+      {/* Charging Stations Modal */}
+      {showStations && (
+        <div className="absolute inset-0 z-50 flex items-end sm:items-center justify-center">
+          <div 
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setShowStations(false)}
+          />
+          <div className="relative bg-card rounded-t-xl sm:rounded-xl w-full sm:max-w-md max-h-[70vh] overflow-hidden shadow-xl">
+            <div className="flex items-center justify-between p-4 border-b">
+              <div className="flex items-center gap-2">
+                <Zap className="w-5 h-5 text-yellow-500" />
+                <h2 className="font-bold text-foreground">Nearby Charging Stations</h2>
+              </div>
+              <Button 
+                size="icon" 
+                variant="ghost" 
+                onClick={() => setShowStations(false)}
+                data-testid="button-close-stations"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+            
+            <div className="overflow-y-auto max-h-[calc(70vh-60px)]">
+              {loading ? (
+                <div className="p-8 text-center text-muted-foreground">
+                  <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full mx-auto mb-2" />
+                  Finding nearby stations...
+                </div>
+              ) : stations.length === 0 ? (
+                <div className="p-8 text-center text-muted-foreground">
+                  <Zap className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                  No charging stations found within 10km
+                </div>
+              ) : (
+                <div className="divide-y divide-border">
+                  {stations.map((station) => (
+                    <div 
+                      key={station.id}
+                      className="p-4 hover:bg-muted/50 cursor-pointer"
+                      data-testid={`station-item-${station.id}`}
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-medium text-foreground truncate">{station.name}</h3>
+                            {station.available ? (
+                              <Badge className="bg-green-500 text-white text-[10px]">Available</Badge>
+                            ) : (
+                              <Badge className="bg-red-500 text-white text-[10px]">In Use</Badge>
+                            )}
+                          </div>
+                          <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
+                            <MapPin className="w-3 h-3" />
+                            {station.address}
+                          </p>
+                          <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
+                            <span className="flex items-center gap-1">
+                              <Navigation className="w-3 h-3" />
+                              {formatDistance(station.distance)}
+                            </span>
+                            {station.rating && (
+                              <span className="flex items-center gap-1">
+                                <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
+                                {station.rating.toFixed(1)}
+                              </span>
+                            )}
+                            {station.pricePerKwh && (
+                              <span>${station.pricePerKwh.toFixed(2)}/kWh</span>
+                            )}
+                          </div>
+                          <div className="flex flex-wrap gap-1 mt-2">
+                            {station.connectorTypes.map((type) => (
+                              <Badge key={type} variant="outline" className="text-[10px]">
+                                {type}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -90,6 +90,7 @@ export interface IStorage {
   getHazards(): Promise<Hazard[]>;
   getChargingStations(): Promise<ChargingStation[]>;
   getChargingStationsNearRoute(routeId: string): Promise<ChargingStation[]>;
+  getChargingStationsNearLocation(lat: number, lng: number, radiusMeters?: number): Promise<(ChargingStation & { distance: number })[]>;
 }
 
 // Sample charging stations in NYC area
@@ -387,6 +388,17 @@ export class MemStorage implements IStorage {
     }
     
     return nearbyStations;
+  }
+  
+  async getChargingStationsNearLocation(lat: number, lng: number, radiusMeters: number = 5000): Promise<(ChargingStation & { distance: number })[]> {
+    const stationsWithDistance = SAMPLE_CHARGING_STATIONS.map(station => ({
+      ...station,
+      distance: haversineDistance(lat, lng, station.location.lat, station.location.lng)
+    }));
+    
+    return stationsWithDistance
+      .filter(s => s.distance <= radiusMeters)
+      .sort((a, b) => a.distance - b.distance);
   }
 }
 

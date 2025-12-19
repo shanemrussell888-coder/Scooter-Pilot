@@ -118,5 +118,24 @@ export async function registerRoutes(
     }
   });
 
+  // Get charging stations near a location
+  app.get("/api/charging-stations/nearby", async (req, res) => {
+    try {
+      const lat = parseFloat(req.query.lat as string);
+      const lng = parseFloat(req.query.lng as string);
+      const radius = req.query.radius ? parseFloat(req.query.radius as string) : 5000;
+      
+      if (isNaN(lat) || isNaN(lng)) {
+        return res.status(400).json({ error: "Valid lat and lng required" });
+      }
+      
+      const stations = await storage.getChargingStationsNearLocation(lat, lng, radius);
+      res.json(stations);
+    } catch (error) {
+      console.error("Nearby charging stations fetch error:", error);
+      res.status(500).json({ error: "Failed to fetch nearby charging stations" });
+    }
+  });
+
   return httpServer;
 }
