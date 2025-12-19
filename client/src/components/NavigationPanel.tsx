@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronUp, ChevronDown, X, Navigation2, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useMapStore } from "@/lib/mapStore";
+import { useSpeech, formatNavigationInstruction, formatLaneAnnouncement } from "@/hooks/use-speech";
 
 export function NavigationPanel() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(true);
+  const { speak, stop, isSupported } = useSpeech();
+  const lastSpokenStepRef = useRef<number>(-1);
+  const lastLaneTypeRef = useRef<string>("");
 
   const {
     isNavigating,
@@ -19,17 +23,69 @@ export function NavigationPanel() {
     clearRoute,
   } = useMapStore();
 
-  if (!isNavigating || !activeRoute) return null;
-
-  const currentSegment = activeRoute.segments[currentStepIndex];
-  const nextSegment = activeRoute.segments[currentStepIndex + 1];
-  const currentSpeedOption = activeRoute.speedOptions.find(
+  const currentSegment = activeRoute?.segments[currentStepIndex];
+  const nextSegment = activeRoute?.segments[currentStepIndex + 1];
+  const currentSpeedOption = activeRoute?.speedOptions?.find(
     (opt) => opt.category === selectedSpeed
   );
 
+  useEffect(() => {
+    if (!isNavigating || !activeRoute || !voiceEnabled || !isSupported) return;
+    
+    if (lastSpokenStepRef.current !== currentStepIndex && currentSegment) {
+      const instruction = formatNavigationInstruction(
+        currentSegment.instruction || "Continue straight",
+        currentSegment.distance
+      );
+      speak(instruction);
+      lastSpokenStepRef.current = currentStepIndex;
+      
+      if (currentSegment.laneType !== lastLaneTypeRef.current) {
+        setTimeout(() => {
+          if (voiceEnabled) {
+            speak(formatLaneAnnouncement(currentSegment.laneType));
+          }
+        }, 2500);
+        lastLaneTypeRef.current = currentSegment.laneType;
+      }
+    }
+  }, [currentStepIndex, isNavigating, voiceEnabled, activeRoute, currentSegment, speak, isSupported]);
+
+  useEffect(() => {
+    if (isNavigating && voiceEnabled && isSupported && activeRoute) {
+      speak("Navigation started. " + formatNavigationInstruction(
+        activeRoute.segments[0]?.instruction || "Continue straight",
+        activeRoute.segments[0]?.distance || 0
+      ));
+      lastSpokenStepRef.current = 0;
+      lastLaneTypeRef.current = activeRoute.segments[0]?.laneType || "";
+    }
+    
+    return () => {
+      if (!isNavigating) {
+        stop();
+      }
+    };
+  }, [isNavigating]);
+
+  if (!isNavigating || !activeRoute) return null;
+
   const handleEndNavigation = () => {
+    if (voiceEnabled && isSupported) {
+      speak("Navigation ended.");
+    }
     setIsNavigating(false);
     clearRoute();
+  };
+  
+  const toggleVoice = () => {
+    const newState = !voiceEnabled;
+    setVoiceEnabled(newState);
+    if (newState && isSupported) {
+      speak("Voice navigation enabled.");
+    } else {
+      stop();
+    }
   };
 
   const formatDistance = (meters: number): string => {
@@ -146,8 +202,9 @@ export function NavigationPanel() {
             <Button
               size="icon"
               variant="ghost"
-              onClick={() => setVoiceEnabled(!voiceEnabled)}
+              onClick={toggleVoice}
               data-testid="button-toggle-voice"
+              title={voiceEnabled ? "Mute voice" : "Enable voice"}
             >
               {voiceEnabled ? (
                 <Volume2 className="h-5 w-5" />

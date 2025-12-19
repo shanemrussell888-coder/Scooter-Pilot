@@ -1,4 +1,4 @@
-import { X, Gauge, Map, Bike, Battery, Moon, Sun, AlertTriangle } from "lucide-react";
+import { X, Gauge, Map, Bike, Battery, Moon, Sun, AlertTriangle, Info, Heart, ExternalLink, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -216,6 +216,75 @@ export function SettingsModal() {
                 </p>
               </div>
             )}
+          </div>
+
+          <Separator />
+
+          {/* Support the App */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Heart className="h-5 w-5 text-red-500" />
+              <Label>Support ScooterNav</Label>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Help us keep ScooterNav free and improve it with new features.
+            </p>
+            <Button
+              variant="outline"
+              className="w-full gap-2"
+              onClick={() => window.open("https://github.com/sponsors/shane-m-russell888coder", "_blank")}
+              data-testid="button-donate"
+            >
+              <Heart className="h-4 w-4 text-red-500" />
+              Support Development
+              <ExternalLink className="h-3 w-3 ml-auto" />
+            </Button>
+          </div>
+
+          <Separator />
+
+          {/* About & Legal */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <Info className="h-5 w-5 text-muted-foreground" />
+              <Label>About & Legal</Label>
+            </div>
+
+            {/* Ownership */}
+            <Card className="p-3 bg-muted/50">
+              <div className="flex items-center gap-2 mb-2">
+                <FileText className="h-4 w-4 text-muted-foreground" />
+                <p className="text-sm font-medium">Ownership & Copyright</p>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                ScooterNav is jointly owned by M&S.co - a partnership between 
+                Shane Matthew Russell and Manuel Hernandez. All intellectual property 
+                rights, trademarks, and copyrights are reserved. Version 1.0 (2024).
+              </p>
+            </Card>
+
+            {/* Liability Disclaimer */}
+            <Card className="p-3 bg-muted/50">
+              <div className="flex items-center gap-2 mb-2">
+                <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                <p className="text-sm font-medium">Liability Disclaimer</p>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                ScooterNav is provided "as is" without warranty of any kind. The creators, 
+                owners, and contributors of ScooterNav shall not be held liable for any 
+                direct, indirect, incidental, special, or consequential damages arising 
+                from the use of this application. Users assume all risks associated with 
+                operating electric scooters. Always follow local traffic laws, wear 
+                appropriate safety gear, and ride responsibly. Navigation suggestions 
+                are for informational purposes only - always use your own judgment and 
+                observe road conditions.
+              </p>
+            </Card>
+
+            {/* Terms of Use */}
+            <p className="text-xs text-muted-foreground text-center">
+              By using ScooterNav, you agree to these terms.
+            </p>
           </div>
         </div>
       </DialogContent>

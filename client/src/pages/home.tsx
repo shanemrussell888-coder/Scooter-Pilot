@@ -24,23 +24,30 @@ export default function Home() {
           {/* App Header */}
           <div className="flex items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-lg">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="5" cy="19" r="2" />
-                  <circle cx="19" cy="19" r="2" />
-                  <path d="M5 17V9a2 2 0 0 1 2-2h4l3 3h5" />
-                  <path d="M14 7v10" />
-                </svg>
+              <div className="flex flex-col items-center">
+                <div className="w-11 h-11 rounded-full bg-black dark:bg-white flex items-center justify-center shadow-lg border-2 border-white dark:border-black">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="stroke-white dark:stroke-black"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="5" cy="19" r="3" />
+                    <circle cx="19" cy="19" r="3" />
+                    <path d="M5 16V6" />
+                    <path d="M5 6h2a1 1 0 0 1 1 1v3" />
+                    <path d="M8 10h6" />
+                    <path d="M14 10l2-6h3" />
+                    <path d="M14 10v6" />
+                    <circle cx="5" cy="4" r="1.5" fill="currentColor" />
+                  </svg>
+                </div>
+                <span className="text-[8px] font-bold text-foreground mt-0.5 tracking-wider">M&S.co</span>
               </div>
               <div>
                 <h1 className="text-lg font-bold text-foreground drop-shadow-sm">

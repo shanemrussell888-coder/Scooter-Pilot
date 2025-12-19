@@ -98,7 +98,7 @@ export const useMapStore = create<MapState>((set) => ({
     preferredMapProvider: 'google',
     scooterType: 'standing',
     batteryCapacity: 100,
-    darkMode: false,
+    darkMode: true,
   },
   setPreferences: (prefs) => set((state) => ({
     preferences: { ...state.preferences, ...prefs }
