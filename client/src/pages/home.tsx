@@ -102,9 +102,10 @@ export default function Home() {
             href="https://github.com/sponsors/shanemrussell888-coder"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white text-gray-800 text-[10px] font-bold px-2 py-1.5 rounded-md shadow-lg border border-gray-200 hover:bg-gray-50"
+            className="bg-white text-gray-800 text-[10px] font-bold px-2 py-1.5 rounded-md shadow-lg border border-gray-200 hover:bg-gray-50 flex items-center gap-1"
             data-testid="button-support-us"
           >
+            <span className="text-green-500 text-sm font-bold">$</span>
             SUPPORT US CLICK HERE!
           </a>
           <button
