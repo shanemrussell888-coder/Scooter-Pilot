@@ -142,7 +142,7 @@ export default function Home() {
             href="https://github.com/sponsors/shanemrussell888-coder"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-green-500 text-black text-[10px] font-bold px-3 py-3 shadow-lg border-[3px] border-black hover:bg-green-400 flex flex-col items-center gap-0.5"
+            className="bg-green-600 text-black text-[10px] font-bold px-3 py-3 shadow-lg border-[3px] border-black hover:bg-green-500 flex flex-col items-center gap-0.5"
             style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
             data-testid="button-support-us"
           >
