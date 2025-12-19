@@ -142,13 +142,25 @@ export default function Home() {
             href="https://github.com/sponsors/shanemrussell888-coder"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-green-700 text-black text-[10px] font-bold px-3 py-3 shadow-lg border-[6px] border-black hover:bg-green-600 flex flex-col items-center gap-0.5"
-            style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+            className="relative flex items-center justify-center"
             data-testid="button-support-us"
           >
-            <span className="text-black text-sm font-bold">$</span>
-            <span className="text-[8px] leading-tight text-center text-black font-bold">SUPPORT US<br/>CLICK HERE!</span>
-            <span className="text-[6px] text-black mt-0.5 font-semibold">CashApp: $ManSco0311</span>
+            <svg viewBox="0 0 100 87" className="w-20 h-[70px] absolute">
+              <polygon 
+                points="50,0 100,25 100,62 50,87 0,62 0,25" 
+                fill="none" 
+                stroke="black" 
+                strokeWidth="6"
+              />
+            </svg>
+            <div 
+              className="bg-green-700 hover:bg-green-600 flex flex-col items-center justify-center w-[72px] h-[62px] text-black"
+              style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+            >
+              <span className="text-black text-xs font-bold">$</span>
+              <span className="text-[7px] leading-tight text-center text-black font-bold">SUPPORT US<br/>CLICK HERE!</span>
+              <span className="text-[5px] text-black font-semibold">CashApp: $ManSco0311</span>
+            </div>
           </a>
           <button
             onClick={fetchNearbyStations}
