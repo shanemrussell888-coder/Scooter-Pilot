@@ -8,6 +8,7 @@ import { FloatingActions } from "@/components/FloatingActions";
 import { QuickDestinations } from "@/components/QuickDestinations";
 import { NavigationPanel } from "@/components/NavigationPanel";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { LanguageToggle } from "@/components/LanguageToggle";
 import { useMapStore } from "@/lib/mapStore";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -96,7 +97,10 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <ThemeToggle />
+            <div className="flex items-center gap-1">
+              <LanguageToggle />
+              <ThemeToggle />
+            </div>
           </div>
 
           {/* Search Bar */}

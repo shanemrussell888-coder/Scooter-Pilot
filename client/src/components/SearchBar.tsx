@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, KeyboardEvent } from "react";
-import { Search, Navigation, MapPin, X, Locate, ArrowRight, Loader2, Navigation2 } from "lucide-react";
+import { Search, Navigation, MapPin, X, Locate, ArrowRight, Loader2, Navigation2, Plus, CircleDot } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -18,6 +18,8 @@ export function SearchBar() {
   const [destFocusIndex, setDestFocusIndex] = useState(-1);
   const [showOriginSuggestions, setShowOriginSuggestions] = useState(false);
   const [showDestSuggestions, setShowDestSuggestions] = useState(false);
+  const [stopResults, setStopResults] = useState<{ [key: number]: LocationResult[] }>({});
+  const [showStopResults, setShowStopResults] = useState<{ [key: number]: boolean }>({});
   const originRef = useRef<HTMLDivElement>(null);
   const destRef = useRef<HTMLDivElement>(null);
   
@@ -35,6 +37,10 @@ export function SearchBar() {
     currentLocation,
     clearRoute,
     setShowRoutePanel,
+    stops,
+    addStop,
+    updateStop,
+    removeStop,
   } = useMapStore();
 
   // Search mutation for origin with location bias
@@ -88,6 +94,36 @@ export function SearchBar() {
       }
     },
   });
+
+  // Search for stop locations
+  const searchStop = async (query: string, stopIndex: number) => {
+    if (query.length < 2) {
+      setStopResults(prev => ({ ...prev, [stopIndex]: [] }));
+      setShowStopResults(prev => ({ ...prev, [stopIndex]: false }));
+      return;
+    }
+    try {
+      let url = `/api/locations/search?q=${encodeURIComponent(query)}`;
+      if (currentLocation) {
+        url += `&lat=${currentLocation.lat}&lng=${currentLocation.lng}`;
+      }
+      const response = await apiRequest("GET", url);
+      const results = await response.json() as LocationResult[];
+      setStopResults(prev => ({ ...prev, [stopIndex]: results }));
+      setShowStopResults(prev => ({ ...prev, [stopIndex]: true }));
+    } catch (e) {
+      console.error("Stop search failed:", e);
+    }
+  };
+
+  const handleSelectStop = (stopIndex: number, result: LocationResult) => {
+    updateStop(stopIndex, {
+      coordinate: result.coordinate,
+      name: result.name,
+      query: result.name,
+    });
+    setShowStopResults(prev => ({ ...prev, [stopIndex]: false }));
+  };
 
   // Debounced search for origin
   useEffect(() => {
@@ -389,6 +425,69 @@ export function SearchBar() {
             </div>
           )}
         </div>
+
+        {/* Stops */}
+        {stops.map((stop, index) => (
+          <div key={index} className="relative">
+            <div className="flex items-center gap-2">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center">
+                <CircleDot className="h-4 w-4 text-white" />
+              </div>
+              <div className="flex-1 relative">
+                <Input
+                  type="text"
+                  placeholder={`Stop ${index + 1}`}
+                  value={stop.query}
+                  onChange={(e) => {
+                    updateStop(index, { query: e.target.value });
+                    searchStop(e.target.value, index);
+                  }}
+                  className="pr-8"
+                  data-testid={`input-stop-${index}`}
+                />
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 h-6 w-6"
+                  onClick={() => removeStop(index)}
+                  data-testid={`button-remove-stop-${index}`}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              </div>
+            </div>
+            {showStopResults[index] && stopResults[index]?.length > 0 && (
+              <div className="absolute top-full left-10 right-0 mt-1 z-50 bg-card border rounded-md shadow-lg max-h-48 overflow-y-auto">
+                {stopResults[index].map((result) => (
+                  <button
+                    key={result.id}
+                    className="w-full px-3 py-2 text-left flex items-center gap-2 hover-elevate"
+                    onClick={() => handleSelectStop(index, result)}
+                    data-testid={`location-result-stop-${index}-${result.id}`}
+                  >
+                    <MapPin className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium truncate">{result.name}</p>
+                      <p className="text-xs text-muted-foreground truncate">{result.address}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+
+        {/* Add Stop Button */}
+        {origin && stops.length < 3 && (
+          <button
+            onClick={addStop}
+            className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground pl-10"
+            data-testid="button-add-stop"
+          >
+            <Plus className="h-3 w-3" />
+            Add a stop (up to 3)
+          </button>
+        )}
 
         {/* Destination Input */}
         <div ref={destRef} className="relative">

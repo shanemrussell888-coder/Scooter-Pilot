@@ -1,6 +1,14 @@
 import { create } from 'zustand';
 import type { Route, Coordinate, SpeedCategory, UserPreferences, Weather, Hazard } from '@shared/schema';
 
+interface Stop {
+  coordinate: Coordinate;
+  name: string;
+  query: string;
+}
+
+type Language = 'en' | 'es' | 'zh' | 'vi' | 'tl' | 'ko' | 'fr' | 'ar';
+
 interface MapState {
   // Current location
   currentLocation: Coordinate | null;
@@ -19,6 +27,16 @@ interface MapState {
   destinationName: string;
   setOrigin: (coord: Coordinate | null, name: string) => void;
   setDestination: (coord: Coordinate | null, name: string) => void;
+  
+  // Stops (up to 3)
+  stops: Stop[];
+  addStop: () => void;
+  updateStop: (index: number, stop: Partial<Stop>) => void;
+  removeStop: (index: number) => void;
+  
+  // Language
+  language: Language;
+  setLanguage: (lang: Language) => void;
   
   // Route state
   activeRoute: Route | null;
@@ -74,6 +92,23 @@ export const useMapStore = create<MapState>((set) => ({
   setOrigin: (coord, name) => set({ origin: coord, originName: name }),
   setDestination: (coord, name) => set({ destination: coord, destinationName: name }),
   
+  stops: [],
+  addStop: () => set((state) => {
+    if (state.stops.length >= 3) return state;
+    return { stops: [...state.stops, { coordinate: { lat: 0, lng: 0 }, name: '', query: '' }] };
+  }),
+  updateStop: (index, stop) => set((state) => {
+    const newStops = [...state.stops];
+    newStops[index] = { ...newStops[index], ...stop };
+    return { stops: newStops };
+  }),
+  removeStop: (index) => set((state) => ({
+    stops: state.stops.filter((_, i) => i !== index)
+  })),
+  
+  language: 'en',
+  setLanguage: (lang) => set({ language: lang }),
+  
   activeRoute: null,
   setActiveRoute: (route) => set({ activeRoute: route }),
   selectedSpeed: 'medium',
@@ -123,5 +158,19 @@ export const useMapStore = create<MapState>((set) => ({
     showRoutePanel: false,
     isNavigating: false,
     currentStepIndex: 0,
+    stops: [],
   }),
 }));
+
+export const LANGUAGES: { code: Language; name: string; flag: string }[] = [
+  { code: 'en', name: 'English', flag: 'EN' },
+  { code: 'es', name: 'Español', flag: 'ES' },
+  { code: 'zh', name: '中文', flag: 'ZH' },
+  { code: 'vi', name: 'Tiếng Việt', flag: 'VI' },
+  { code: 'tl', name: 'Tagalog', flag: 'TL' },
+  { code: 'ko', name: '한국어', flag: 'KO' },
+  { code: 'fr', name: 'Français', flag: 'FR' },
+  { code: 'ar', name: 'العربية', flag: 'AR' },
+];
+
+export type { Language };
