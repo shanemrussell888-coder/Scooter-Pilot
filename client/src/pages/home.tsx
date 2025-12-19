@@ -155,17 +155,19 @@ export default function Home() {
               />
             </svg>
             <div 
-              className="bg-green-700 hover:bg-green-600 flex flex-col items-center justify-center w-[88px] h-[76px] text-black p-1"
+              className="bg-green-700 hover:bg-green-600 flex items-center justify-center w-[88px] h-[76px] text-black"
               style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
             >
-              <img 
-                src={cashAppQR} 
-                alt="CashApp QR Code" 
-                className="w-10 h-10 rounded-sm bg-white"
-                data-testid="img-qr-code"
-              />
-              <span className="text-[6px] leading-tight text-center text-black font-bold mt-0.5">SUPPORT US</span>
-              <span className="text-[5px] text-black font-semibold">$ManSco0311</span>
+              <div className="flex flex-col items-center justify-center">
+                <img 
+                  src={cashAppQR} 
+                  alt="CashApp QR Code" 
+                  className="w-11 h-11 rounded-sm bg-white"
+                  data-testid="img-qr-code"
+                />
+                <span className="text-[5px] leading-tight text-center text-black font-bold mt-0.5">SUPPORT US</span>
+                <span className="text-[4px] text-black font-semibold">$ManSco0311</span>
+              </div>
             </div>
           </a>
           <button
