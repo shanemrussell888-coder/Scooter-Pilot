@@ -97,7 +97,16 @@ export default function Home() {
 
       {/* Charging Stations Button - Bottom Right */}
       {!isNavigating && (
-        <div className="absolute bottom-20 right-4 z-10">
+        <div className="absolute bottom-20 right-4 z-10 flex flex-col gap-2 items-end">
+          <a
+            href="https://github.com/sponsors/shanemrussell888-coder"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white text-gray-800 text-[10px] font-bold px-2 py-1.5 rounded-md shadow-lg border border-gray-200 hover:bg-gray-50"
+            data-testid="button-support-us"
+          >
+            SUPPORT US CLICK HERE!
+          </a>
           <button
             className="relative bg-white text-gray-800 text-xs font-medium px-4 py-2.5 rounded-md shadow-lg flex items-center gap-2 overflow-hidden border border-gray-200"
             data-testid="button-charging-stations"
