@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, KeyboardEvent } from "react";
-import { Search, Navigation, MapPin, X, Locate, ArrowRight } from "lucide-react";
+import { Search, Navigation, MapPin, X, Locate, ArrowRight, Loader2, Navigation2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -7,6 +7,7 @@ import { useMapStore } from "@/lib/mapStore";
 import type { LocationResult } from "@shared/schema";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { useGeolocation } from "@/hooks/use-geolocation";
 
 export function SearchBar() {
   const [showOriginResults, setShowOriginResults] = useState(false);
@@ -15,8 +16,12 @@ export function SearchBar() {
   const [destResults, setDestResults] = useState<LocationResult[]>([]);
   const [originFocusIndex, setOriginFocusIndex] = useState(-1);
   const [destFocusIndex, setDestFocusIndex] = useState(-1);
+  const [showOriginSuggestions, setShowOriginSuggestions] = useState(false);
+  const [showDestSuggestions, setShowDestSuggestions] = useState(false);
   const originRef = useRef<HTMLDivElement>(null);
   const destRef = useRef<HTMLDivElement>(null);
+  
+  const { status: geoStatus, isLoading: geoLoading, hasLocation, requestLocation } = useGeolocation();
 
   const {
     originQuery,
@@ -32,10 +37,14 @@ export function SearchBar() {
     setShowRoutePanel,
   } = useMapStore();
 
-  // Search mutation for origin
+  // Search mutation for origin with location bias
   const searchOrigin = useMutation({
     mutationFn: async (query: string) => {
-      const response = await apiRequest("GET", `/api/locations/search?q=${encodeURIComponent(query)}`);
+      let url = `/api/locations/search?q=${encodeURIComponent(query)}`;
+      if (currentLocation) {
+        url += `&lat=${currentLocation.lat}&lng=${currentLocation.lng}`;
+      }
+      const response = await apiRequest("GET", url);
       return await response.json() as LocationResult[];
     },
     onSuccess: (data) => {
@@ -45,16 +54,38 @@ export function SearchBar() {
     },
   });
 
-  // Search mutation for destination
+  // Search mutation for destination with location bias
   const searchDestination = useMutation({
     mutationFn: async (query: string) => {
-      const response = await apiRequest("GET", `/api/locations/search?q=${encodeURIComponent(query)}`);
+      let url = `/api/locations/search?q=${encodeURIComponent(query)}`;
+      if (currentLocation) {
+        url += `&lat=${currentLocation.lat}&lng=${currentLocation.lng}`;
+      }
+      const response = await apiRequest("GET", url);
       return await response.json() as LocationResult[];
     },
     onSuccess: (data) => {
       setDestResults(data);
       setShowDestResults(true);
       setDestFocusIndex(-1);
+    },
+  });
+  
+  // Fetch nearby suggestions when focused but empty
+  const fetchNearbySuggestions = useMutation({
+    mutationFn: async (target: "origin" | "destination") => {
+      if (!currentLocation) return [];
+      const response = await apiRequest("GET", `/api/locations/nearby?lat=${currentLocation.lat}&lng=${currentLocation.lng}&limit=5`);
+      return { target, results: await response.json() as LocationResult[] };
+    },
+    onSuccess: (data) => {
+      if (data && data.target === "origin") {
+        setOriginResults(data.results);
+        setShowOriginSuggestions(true);
+      } else if (data && data.target === "destination") {
+        setDestResults(data.results);
+        setShowDestSuggestions(true);
+      }
     },
   });
 
@@ -89,9 +120,11 @@ export function SearchBar() {
     const handleClickOutside = (event: MouseEvent) => {
       if (originRef.current && !originRef.current.contains(event.target as Node)) {
         setShowOriginResults(false);
+        setShowOriginSuggestions(false);
       }
       if (destRef.current && !destRef.current.contains(event.target as Node)) {
         setShowDestResults(false);
+        setShowDestSuggestions(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -102,6 +135,7 @@ export function SearchBar() {
     setOrigin(result.coordinate, result.name);
     setOriginQuery(result.name);
     setShowOriginResults(false);
+    setShowOriginSuggestions(false);
     if (destination) {
       setShowRoutePanel(true);
     }
@@ -111,12 +145,13 @@ export function SearchBar() {
     setDestination(result.coordinate, result.name);
     setDestinationQuery(result.name);
     setShowDestResults(false);
+    setShowDestSuggestions(false);
     
     // If no origin set, use current location or a default
     if (!origin) {
       if (currentLocation) {
-        setOrigin(currentLocation, "Current Location");
-        setOriginQuery("Current Location");
+        setOrigin(currentLocation, "My Location");
+        setOriginQuery("My Location");
         setShowRoutePanel(true);
       } else {
         // Use Times Square as a fallback default location
@@ -132,9 +167,10 @@ export function SearchBar() {
 
   const handleUseCurrentLocation = () => {
     if (currentLocation) {
-      setOrigin(currentLocation, "Current Location");
-      setOriginQuery("Current Location");
+      setOrigin(currentLocation, "My Location");
+      setOriginQuery("My Location");
       setShowOriginResults(false);
+      setShowOriginSuggestions(false);
     }
   };
 
@@ -283,30 +319,57 @@ export function SearchBar() {
             <div className="flex-1 relative">
               <Input
                 type="text"
-                placeholder="Start location"
+                placeholder={geoLoading ? "Detecting location..." : "Start location"}
                 value={originQuery}
                 onChange={(e) => setOriginQuery(e.target.value)}
-                onFocus={() => originResults.length > 0 && setShowOriginResults(true)}
+                onFocus={() => {
+                  if (originResults.length > 0) {
+                    setShowOriginResults(true);
+                  } else if (originQuery.length === 0 && currentLocation) {
+                    fetchNearbySuggestions.mutate("origin");
+                  }
+                }}
                 onKeyDown={handleOriginKeyDown}
                 className="pr-10"
                 data-testid="input-origin"
               />
-              {currentLocation && !origin && (
+              {geoLoading ? (
+                <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                </div>
+              ) : currentLocation && !origin ? (
                 <Button
                   size="icon"
                   variant="ghost"
                   className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
                   onClick={handleUseCurrentLocation}
                   data-testid="button-use-current-location"
+                  title="Use my location"
                 >
                   <Locate className="h-4 w-4" />
                 </Button>
-              )}
+              ) : null}
             </div>
           </div>
           
-          {showOriginResults && originResults.length > 0 && (
+          {(showOriginResults || showOriginSuggestions) && (originResults.length > 0 || currentLocation) && (
             <div className="absolute top-full left-10 right-0 mt-1 z-50 bg-card border rounded-md shadow-lg max-h-60 overflow-y-auto">
+              {currentLocation && !origin && (
+                <button
+                  className="w-full px-3 py-2 text-left flex items-center gap-2 hover-elevate border-b"
+                  onClick={handleUseCurrentLocation}
+                  data-testid="button-use-my-location-origin"
+                >
+                  <Navigation2 className="h-4 w-4 text-primary flex-shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-primary">My Location</p>
+                    <p className="text-xs text-muted-foreground">Use current GPS position</p>
+                  </div>
+                </button>
+              )}
+              {showOriginSuggestions && originResults.length > 0 && !originQuery && (
+                <p className="px-3 py-1 text-xs text-muted-foreground bg-muted/50">Nearby places</p>
+              )}
               {originResults.map((result, index) => (
                 <button
                   key={result.id}
@@ -339,15 +402,24 @@ export function SearchBar() {
                 placeholder="Where to?"
                 value={destinationQuery}
                 onChange={(e) => setDestinationQuery(e.target.value)}
-                onFocus={() => destResults.length > 0 && setShowDestResults(true)}
+                onFocus={() => {
+                  if (destResults.length > 0) {
+                    setShowDestResults(true);
+                  } else if (destinationQuery.length === 0 && currentLocation) {
+                    fetchNearbySuggestions.mutate("destination");
+                  }
+                }}
                 onKeyDown={handleDestKeyDown}
                 data-testid="input-destination"
               />
             </div>
           </div>
 
-          {showDestResults && destResults.length > 0 && (
+          {(showDestResults || showDestSuggestions) && destResults.length > 0 && (
             <div className="absolute top-full left-10 right-0 mt-1 z-50 bg-card border rounded-md shadow-lg max-h-60 overflow-y-auto">
+              {showDestSuggestions && destResults.length > 0 && !destinationQuery && (
+                <p className="px-3 py-1 text-xs text-muted-foreground bg-muted/50">Nearby places</p>
+              )}
               {destResults.map((result, index) => (
                 <button
                   key={result.id}

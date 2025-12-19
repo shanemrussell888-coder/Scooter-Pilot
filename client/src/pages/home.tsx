@@ -33,18 +33,15 @@ export default function Home() {
                     viewBox="0 0 24 24"
                     fill="none"
                     className="stroke-white dark:stroke-black"
-                    strokeWidth="1.5"
+                    strokeWidth="1.8"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
                     <circle cx="5" cy="19" r="3" />
                     <circle cx="19" cy="19" r="3" />
-                    <path d="M5 16V6" />
-                    <path d="M5 6h2a1 1 0 0 1 1 1v3" />
-                    <path d="M8 10h6" />
-                    <path d="M14 10l2-6h3" />
-                    <path d="M14 10v6" />
-                    <circle cx="5" cy="4" r="1.5" fill="currentColor" />
+                    <path d="M5 16h14" />
+                    <path d="M7 16V5" />
+                    <path d="M4 5h6" />
                   </svg>
                 </div>
                 <span className="text-[8px] font-bold text-foreground mt-0.5 tracking-wider">M&S.co</span>
