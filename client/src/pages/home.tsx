@@ -148,7 +148,7 @@ export default function Home() {
           >
             <span className="text-black text-sm font-bold">$</span>
             <span className="text-[8px] leading-tight text-center text-black font-bold">SUPPORT US<br/>CLICK HERE!</span>
-            <span className="text-[6px] text-black mt-0.5 font-semibold">CashApp accepted</span>
+            <span className="text-[6px] text-black mt-0.5 font-semibold">CashApp: $ManSco0311</span>
           </a>
           <button
             onClick={fetchNearbyStations}
