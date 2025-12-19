@@ -56,7 +56,7 @@ export function QuickDestinations() {
 
   return (
     <div className="px-4 pt-2">
-      <p className="text-xs text-muted-foreground mb-2 px-1">Quick Destinations</p>
+      <p className="text-sm font-bold text-muted-foreground mb-2 text-center">Quick Destinations</p>
       <div className="flex gap-2">
         {QUICK_DESTINATIONS.map((dest) => {
           const Icon = dest.icon;
