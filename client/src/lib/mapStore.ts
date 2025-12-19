@@ -7,7 +7,7 @@ interface Stop {
   query: string;
 }
 
-type Language = 'en' | 'es' | 'zh' | 'vi' | 'tl' | 'ko' | 'fr' | 'ar';
+type Language = 'en' | 'es' | 'zh-cmn' | 'zh-yue' | 'vi' | 'tl' | 'ko' | 'fr' | 'ar';
 
 interface MapState {
   // Current location
@@ -165,7 +165,8 @@ export const useMapStore = create<MapState>((set) => ({
 export const LANGUAGES: { code: Language; name: string; flag: string }[] = [
   { code: 'en', name: 'English', flag: 'EN' },
   { code: 'es', name: 'Español', flag: 'ES' },
-  { code: 'zh', name: '中文', flag: 'ZH' },
+  { code: 'zh-cmn', name: '普通话 (Mandarin)', flag: 'CMN' },
+  { code: 'zh-yue', name: '廣東話 (Cantonese)', flag: 'YUE' },
   { code: 'vi', name: 'Tiếng Việt', flag: 'VI' },
   { code: 'tl', name: 'Tagalog', flag: 'TL' },
   { code: 'ko', name: '한국어', flag: 'KO' },
