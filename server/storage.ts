@@ -12,7 +12,7 @@ import type {
   ChargingStation,
 } from "@shared/schema";
 
-// Simulated location database for NYC area
+// Simulated location database for NYC area with expanded locations
 const SAMPLE_LOCATIONS: LocationResult[] = [
   { id: "1", name: "Central Park", address: "Central Park, New York, NY", coordinate: { lat: 40.7829, lng: -73.9654 } },
   { id: "2", name: "Times Square", address: "Times Square, Manhattan, NY", coordinate: { lat: 40.758, lng: -73.9855 } },
@@ -29,6 +29,21 @@ const SAMPLE_LOCATIONS: LocationResult[] = [
   { id: "13", name: "Rockefeller Center", address: "45 Rockefeller Plaza, New York, NY", coordinate: { lat: 40.7587, lng: -73.9787 } },
   { id: "14", name: "SoHo", address: "SoHo, Manhattan, NY", coordinate: { lat: 40.7233, lng: -74.0 } },
   { id: "15", name: "Tribeca", address: "Tribeca, Manhattan, NY", coordinate: { lat: 40.7163, lng: -74.0086 } },
+  { id: "16", name: "Battery Park", address: "Battery Park, New York, NY", coordinate: { lat: 40.7033, lng: -74.0170 } },
+  { id: "17", name: "One World Trade Center", address: "285 Fulton St, New York, NY", coordinate: { lat: 40.7127, lng: -74.0134 } },
+  { id: "18", name: "Wall Street", address: "Wall Street, New York, NY", coordinate: { lat: 40.7074, lng: -74.0113 } },
+  { id: "19", name: "Little Italy", address: "Little Italy, Manhattan, NY", coordinate: { lat: 40.7191, lng: -73.9973 } },
+  { id: "20", name: "Chinatown", address: "Chinatown, Manhattan, NY", coordinate: { lat: 40.7158, lng: -73.9970 } },
+  { id: "21", name: "Bryant Park", address: "Bryant Park, New York, NY", coordinate: { lat: 40.7536, lng: -73.9832 } },
+  { id: "22", name: "New York Public Library", address: "476 5th Ave, New York, NY", coordinate: { lat: 40.7532, lng: -73.9822 } },
+  { id: "23", name: "St. Patrick's Cathedral", address: "5th Ave, New York, NY", coordinate: { lat: 40.7585, lng: -73.9764 } },
+  { id: "24", name: "Museum of Modern Art", address: "11 W 53rd St, New York, NY", coordinate: { lat: 40.7614, lng: -73.9776 } },
+  { id: "25", name: "Lincoln Center", address: "10 Lincoln Center Plaza, New York, NY", coordinate: { lat: 40.7725, lng: -73.9835 } },
+  { id: "26", name: "Columbus Circle", address: "Columbus Circle, New York, NY", coordinate: { lat: 40.7681, lng: -73.9819 } },
+  { id: "27", name: "Hudson Yards", address: "Hudson Yards, New York, NY", coordinate: { lat: 40.7538, lng: -74.0015 } },
+  { id: "28", name: "The Vessel", address: "20 Hudson Yards, New York, NY", coordinate: { lat: 40.7536, lng: -74.0022 } },
+  { id: "29", name: "Javits Center", address: "429 11th Ave, New York, NY", coordinate: { lat: 40.7579, lng: -74.0024 } },
+  { id: "30", name: "East Village", address: "East Village, Manhattan, NY", coordinate: { lat: 40.7265, lng: -73.9815 } },
 ];
 
 // Speed configurations
@@ -67,7 +82,8 @@ const SAMPLE_HAZARDS: Hazard[] = [
 ];
 
 export interface IStorage {
-  searchLocations(query: string): Promise<LocationResult[]>;
+  searchLocations(query: string, userLat?: number, userLng?: number): Promise<LocationResult[]>;
+  getNearbyLocations(lat: number, lng: number, limit?: number): Promise<LocationResult[]>;
   createRoute(route: InsertRoute): Promise<Route>;
   getRoute(id: string): Promise<Route | undefined>;
   getWeather(): Promise<Weather>;
@@ -247,13 +263,31 @@ export class MemStorage implements IStorage {
     this.routes = new Map();
   }
 
-  async searchLocations(query: string): Promise<LocationResult[]> {
+  async searchLocations(query: string, userLat?: number, userLng?: number): Promise<LocationResult[]> {
     const lowerQuery = query.toLowerCase();
-    return SAMPLE_LOCATIONS.filter(
+    let results = SAMPLE_LOCATIONS.filter(
       loc =>
         loc.name.toLowerCase().includes(lowerQuery) ||
         loc.address.toLowerCase().includes(lowerQuery)
-    ).slice(0, 5);
+    );
+    
+    if (userLat !== undefined && userLng !== undefined) {
+      results = results.map(loc => ({
+        ...loc,
+        distance: haversineDistance(userLat, userLng, loc.coordinate.lat, loc.coordinate.lng)
+      })).sort((a, b) => (a.distance || 0) - (b.distance || 0));
+    }
+    
+    return results.slice(0, 8);
+  }
+  
+  async getNearbyLocations(lat: number, lng: number, limit: number = 5): Promise<LocationResult[]> {
+    const locationsWithDistance = SAMPLE_LOCATIONS.map(loc => ({
+      ...loc,
+      distance: haversineDistance(lat, lng, loc.coordinate.lat, loc.coordinate.lng)
+    })).sort((a, b) => a.distance - b.distance);
+    
+    return locationsWithDistance.slice(0, limit);
   }
 
   async createRoute(insertRoute: InsertRoute): Promise<Route> {

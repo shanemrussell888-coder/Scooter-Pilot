@@ -8,18 +8,40 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  // Search locations
+  // Search locations with optional location bias
   app.get("/api/locations/search", async (req, res) => {
     try {
       const query = req.query.q as string;
+      const lat = req.query.lat ? parseFloat(req.query.lat as string) : undefined;
+      const lng = req.query.lng ? parseFloat(req.query.lng as string) : undefined;
+      
       if (!query || query.length < 2) {
         return res.json([]);
       }
-      const results = await storage.searchLocations(query);
+      const results = await storage.searchLocations(query, lat, lng);
       res.json(results);
     } catch (error) {
       console.error("Location search error:", error);
       res.status(500).json({ error: "Failed to search locations" });
+    }
+  });
+
+  // Get nearby locations based on user position
+  app.get("/api/locations/nearby", async (req, res) => {
+    try {
+      const lat = parseFloat(req.query.lat as string);
+      const lng = parseFloat(req.query.lng as string);
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 5;
+      
+      if (isNaN(lat) || isNaN(lng)) {
+        return res.status(400).json({ error: "Valid lat and lng required" });
+      }
+      
+      const results = await storage.getNearbyLocations(lat, lng, limit);
+      res.json(results);
+    } catch (error) {
+      console.error("Nearby locations error:", error);
+      res.status(500).json({ error: "Failed to get nearby locations" });
     }
   });
 
