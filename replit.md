@@ -1,5 +1,14 @@
 # ScooterNav - Electric Scooter Navigation App
 
+## Ownership
+
+**M&S.co** - A partnership between:
+- Shane Matthew Russell (DOB: 03/15/1988)
+- Manuel Hernandez (DOB: 11/17/1986)
+
+Copyright 2024 M&S.co. All rights reserved.
+Licensed under the MIT License.
+
 ## Overview
 
 ScooterNav is a mobile-first navigation application designed specifically for electric scooter riders. The app provides smart routing that prioritizes bike lanes, calculates ETAs based on different riding speeds, and includes safety features like hazard alerts and weather conditions. The application is built as a full-stack TypeScript project with a React frontend and Express backend.
@@ -101,3 +110,22 @@ Preferred communication style: Simple, everyday language.
 - Turn-by-turn navigation mode
 - Dark/light theme toggle
 - Safety panel with weather and hazard alerts
+- Voice navigation with Web Speech API
+- Charging station locator with proximity search
+- Multi-stop routes (up to 3 stops)
+- Multi-language support (9 languages including Mandarin and Cantonese)
+- CashApp donation support ($ManSco0311)
+- GitHub Sponsors integration
+
+## Legal Documents
+
+- LICENSE - MIT License with liability protection
+- DISCLAIMER.md - Navigation liability disclaimer
+- TERMS_OF_SERVICE.md - Terms of use
+- PRIVACY_POLICY.md - Privacy policy
+- CONTRIBUTING.md - Contribution guidelines
+
+## Support
+
+- CashApp: $ManSco0311
+- GitHub Sponsors: shanemrussell888-coder
