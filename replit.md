@@ -110,12 +110,15 @@ Preferred communication style: Simple, everyday language.
 - Turn-by-turn navigation mode
 - Dark/light theme toggle
 - Safety panel with weather and hazard alerts
-- Voice navigation with Web Speech API
-- Charging station locator with proximity search
+- Voice navigation with Web Speech API (language-aware voice selection for all 9 languages)
+- Charging station locator with proximity search (Haversine distance)
 - Multi-stop routes (up to 3 stops)
-- Multi-language support (9 languages including Mandarin and Cantonese)
+- Multi-language support (9 languages including Mandarin, Cantonese, Tagalog, Vietnamese, Korean, Arabic, French)
 - CashApp donation support ($ManSco0311)
 - GitHub Sponsors integration
+- **PWA support**: installable on all platforms, manifest.json, theme-color, apple-mobile-web-app-capable
+- **Offline maps**: Service Worker tile caching (up to 2000 tiles via Cache API), pre-cache 6 city presets or current area, clear cache
+- **Keyboard shortcuts**: Ctrl+O opens offline map panel, C toggles charging stations, Ctrl+, opens settings, Escape closes panels
 
 ## Legal Documents
 

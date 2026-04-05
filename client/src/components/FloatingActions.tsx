@@ -1,8 +1,12 @@
-import { Settings, Shield, Locate, Layers } from "lucide-react";
+import { Settings, Shield, Locate, WifiOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useMapStore } from "@/lib/mapStore";
 
-export function FloatingActions() {
+interface Props {
+  onOpenOfflineMap?: () => void;
+}
+
+export function FloatingActions({ onOpenOfflineMap }: Props) {
   const {
     setShowSettings,
     setShowSafetyPanel,
@@ -25,6 +29,7 @@ export function FloatingActions() {
         className="bg-card/90 backdrop-blur-sm shadow-lg"
         onClick={() => setShowSettings(true)}
         data-testid="button-open-settings"
+        title="Settings (Ctrl+,)"
       >
         <Settings className="h-5 w-5 ml-0.5" />
       </Button>
@@ -50,6 +55,17 @@ export function FloatingActions() {
           <Locate className="h-5 w-5" />
         </Button>
       )}
+
+      <Button
+        size="icon"
+        variant="secondary"
+        className="bg-card/90 backdrop-blur-sm shadow-lg"
+        onClick={onOpenOfflineMap}
+        data-testid="button-open-offline-map"
+        title="Offline Maps (Ctrl+O)"
+      >
+        <WifiOff className="h-5 w-5" />
+      </Button>
     </div>
   );
 }
