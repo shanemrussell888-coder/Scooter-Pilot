@@ -39,7 +39,7 @@ By participating in this project, you agree to maintain a respectful and inclusi
 
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/scooternav.git
+git clone https://github.com/shanemrussell888-coder/scooternav.git
 
 # Install dependencies
 npm install
@@ -58,6 +58,13 @@ npm run dev
 ## License
 
 By contributing, you agree that your contributions will be licensed under the MIT License.
+
+## Contact the Maintainer
+
+Have a question before submitting? Reach out directly:
+
+- **Email**: [shane.m.russell888@gmail.com](mailto:shane.m.russell888@gmail.com)
+- **GitHub**: [@shanemrussell888-coder](https://github.com/shanemrussell888-coder)
 
 ---
 

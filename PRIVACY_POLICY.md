@@ -86,8 +86,11 @@ We may update this Privacy Policy from time to time. Changes will be posted with
 
 ## 11. Contact Us
 
-For questions about this Privacy Policy, please contact us through GitHub:
-- GitHub: [shanemrussell888-coder](https://github.com/shanemrussell888-coder)
+For questions about this Privacy Policy, please reach out:
+
+- **Email**: [shane.m.russell888@gmail.com](mailto:shane.m.russell888@gmail.com)
+- **GitHub**: [shanemrussell888-coder](https://github.com/shanemrussell888-coder)
+- **GitHub Issues**: [github.com/shanemrussell888-coder/scooternav/issues](https://github.com/shanemrussell888-coder/scooternav/issues)
 
 ## 12. Consent
 

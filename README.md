@@ -110,5 +110,15 @@ ScooterNav is provided for informational and navigation assistance purposes only
 
 ---
 
+## Contact
+
+For questions, support, or business inquiries:
+
+- **Email**: [shane.m.russell888@gmail.com](mailto:shane.m.russell888@gmail.com)
+- **GitHub**: [@shanemrussell888-coder](https://github.com/shanemrussell888-coder)
+- **Issues**: [github.com/shanemrussell888-coder/scooternav/issues](https://github.com/shanemrussell888-coder/scooternav/issues)
+
+---
+
 **Copyright 2024 M&S.co. All rights reserved.**  
 *Shane Matthew Russell & Manuel Hernandez*
