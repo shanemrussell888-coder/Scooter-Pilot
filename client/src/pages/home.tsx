@@ -121,6 +121,14 @@ export default function Home() {
         </div>
       )}
 
+      {/* Language + Theme always accessible (shown top-right during navigation) */}
+      {isNavigating && (
+        <div className="absolute top-4 right-4 z-30 flex items-center gap-1">
+          <LanguageToggle />
+          <ThemeToggle />
+        </div>
+      )}
+
       {/* Navigation Panel - Only show when navigating */}
       <NavigationPanel />
 

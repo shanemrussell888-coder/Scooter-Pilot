@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useMapStore } from "@/lib/mapStore";
 
 interface ShortcutHandlers {
@@ -7,40 +7,47 @@ interface ShortcutHandlers {
 }
 
 export function useKeyboardShortcuts(handlers: ShortcutHandlers = {}) {
-  const { setShowSettings, showSettings, isNavigating } = useMapStore();
+  const { setShowSettings, isNavigating } = useMapStore();
+  const handlersRef = useRef(handlers);
+
+  useEffect(() => {
+    handlersRef.current = handlers;
+  });
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA") return;
 
+      const store = useMapStore.getState();
+
       switch (e.key) {
         case ",":
           if (e.ctrlKey || e.metaKey) {
             e.preventDefault();
-            setShowSettings(!showSettings);
+            store.setShowSettings(!store.showSettings);
           }
           break;
         case "o":
         case "O":
           if (e.ctrlKey || e.metaKey) {
             e.preventDefault();
-            handlers.onToggleOfflineMap?.();
+            handlersRef.current.onToggleOfflineMap?.();
           }
           break;
         case "c":
         case "C":
-          if (!isNavigating) {
-            handlers.onToggleChargingStations?.();
+          if (!store.isNavigating) {
+            handlersRef.current.onToggleChargingStations?.();
           }
           break;
         case "Escape":
-          setShowSettings(false);
+          store.setShowSettings(false);
           break;
       }
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [showSettings, isNavigating, setShowSettings, handlers]);
+  }, []);
 }

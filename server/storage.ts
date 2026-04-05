@@ -181,9 +181,9 @@ function generateRouteSegments(
 ): { segments: RouteSegment[]; totalDistance: number } {
   const latDiff = destination.lat - origin.lat;
   const lngDiff = destination.lng - origin.lng;
-  
-  // Calculate total distance in meters (rough approximation)
-  const totalDistance = Math.sqrt(latDiff ** 2 + lngDiff ** 2) * 111000;
+
+  // Accurate geodesic distance using Haversine formula
+  const totalDistance = haversineDistance(origin.lat, origin.lng, destination.lat, destination.lng);
   
   // Generate 4-8 segments
   const numSegments = Math.max(4, Math.min(8, Math.floor(totalDistance / 400)));

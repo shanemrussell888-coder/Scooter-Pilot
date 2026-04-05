@@ -98,7 +98,7 @@ export const userPreferencesSchema = z.object({
   preferredMapProvider: z.enum(mapProviders).default("google"),
   scooterType: z.enum(scooterTypes).default("standing"),
   batteryCapacity: z.number().default(100), // percentage
-  darkMode: z.boolean().default(false),
+  darkMode: z.boolean().default(true),
 });
 export type UserPreferences = z.infer<typeof userPreferencesSchema>;
 
