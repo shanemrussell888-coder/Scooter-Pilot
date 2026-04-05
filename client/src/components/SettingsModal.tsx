@@ -1,4 +1,4 @@
-import { X, Gauge, Map, Bike, Battery, Moon, Sun, AlertTriangle, Info, Heart, ExternalLink, FileText } from "lucide-react";
+import { X, Gauge, Map, Bike, Battery, Moon, Sun, AlertTriangle, Info, Heart, ExternalLink, FileText, Github, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -227,18 +227,55 @@ export function SettingsModal() {
               <Label>Support ScooterNav</Label>
             </div>
             <p className="text-sm text-muted-foreground">
-              Help us keep ScooterNav free and improve it with new features.
+              ScooterNav is free and open-source. If it's useful to you, please consider supporting the developers — every contribution keeps it growing.
             </p>
-            <Button
-              variant="outline"
-              className="w-full gap-2"
-              onClick={() => window.open("https://github.com/sponsors/shane-m-russell888coder", "_blank")}
-              data-testid="button-donate"
-            >
-              <Heart className="h-4 w-4 text-red-500" />
-              Support Development
-              <ExternalLink className="h-3 w-3 ml-auto" />
-            </Button>
+
+            <Card className="p-3 bg-gradient-to-br from-green-950/40 to-emerald-900/20 border-green-800/50">
+              <p className="text-xs font-semibold text-green-400 mb-2 uppercase tracking-wide">Ways to Contribute</p>
+              <div className="flex flex-col gap-2">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-3 border-green-700/50 hover:bg-green-900/30 text-foreground"
+                  onClick={() => window.open("https://github.com/sponsors/shanemrussell888-coder", "_blank")}
+                  data-testid="button-github-sponsors"
+                >
+                  <Github className="h-4 w-4 text-white flex-shrink-0" />
+                  <div className="text-left">
+                    <p className="text-sm font-medium">GitHub Sponsors</p>
+                    <p className="text-xs text-muted-foreground">Monthly or one-time sponsor</p>
+                  </div>
+                  <ExternalLink className="h-3 w-3 ml-auto text-muted-foreground" />
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-3 border-green-700/50 hover:bg-green-900/30 text-foreground"
+                  onClick={() => window.open("https://cash.app/$ManSco0311", "_blank")}
+                  data-testid="button-cashapp"
+                >
+                  <DollarSign className="h-4 w-4 text-green-400 flex-shrink-0" />
+                  <div className="text-left">
+                    <p className="text-sm font-medium">CashApp</p>
+                    <p className="text-xs text-muted-foreground">$ManSco0311</p>
+                  </div>
+                  <ExternalLink className="h-3 w-3 ml-auto text-muted-foreground" />
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-3 border-green-700/50 hover:bg-green-900/30 text-foreground"
+                  onClick={() => window.open("https://github.com/shanemrussell888-coder", "_blank")}
+                  data-testid="button-github-star"
+                >
+                  <Github className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                  <div className="text-left">
+                    <p className="text-sm font-medium">Star on GitHub</p>
+                    <p className="text-xs text-muted-foreground">Free way to show support</p>
+                  </div>
+                  <ExternalLink className="h-3 w-3 ml-auto text-muted-foreground" />
+                </Button>
+              </div>
+            </Card>
           </div>
 
           <Separator />
