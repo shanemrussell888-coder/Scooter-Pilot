@@ -62,10 +62,9 @@ export function NavigationPanel() {
     }
     
     return () => {
-      if (!isNavigating) {
-        stop();
-      }
+      stop();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNavigating]);
 
   if (!isNavigating || !activeRoute) return null;

@@ -2,23 +2,177 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5" />
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fira+Code:wght@300..700&family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&family=Oxanium:wght@200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <title>ScooterNav - Smart E-Scooter Navigation</title>
-    <meta name="description" content="Navigate your city safely on your electric scooter with dedicated bike lane routing, speed-based ETA calculations, and real-time safety alerts." />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+
+    <!-- ═══════════════════════════════════════════════
+         PRIMARY SEO
+    ══════════════════════════════════════════════════ -->
+    <title>ScooterNav – Smart Electric Scooter Navigation | M&S.co</title>
+    <meta name="description" content="ScooterNav by M&S.co: Free GPS navigation for electric scooters with bike lane routing, charging station finder, offline maps, voice guidance in 9 languages, and real-time safety alerts. Available on iOS, Android &amp; desktop." />
+    <meta name="keywords" content="electric scooter navigation, e-scooter GPS, scooter app, bike lane navigation, charging station finder, scooter route planner, EV scooter map, scooter safety, offline navigation, voice navigation scooter, scooter app free, ScooterNav, M&S.co" />
+    <meta name="author" content="M&amp;S.co — Shane Matthew Russell &amp; Manuel Hernandez" />
+    <meta name="application-name" content="ScooterNav" />
+    <meta name="generator" content="ScooterNav v1.0" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="language" content="English" />
+    <meta name="rating" content="general" />
+    <meta name="category" content="navigation, travel, utilities, electric vehicles" />
+    <link rel="canonical" href="https://scooternav.replit.app/" />
+
+    <!-- ═══════════════════════════════════════════════
+         OPEN GRAPH (Facebook, LinkedIn, WhatsApp, etc.)
+    ══════════════════════════════════════════════════ -->
+    <meta property="og:site_name" content="ScooterNav by M&amp;S.co" />
+    <meta property="og:title" content="ScooterNav – Smart Electric Scooter Navigation" />
+    <meta property="og:description" content="Free GPS navigation for electric scooters with bike lane routing, charging station finder, offline maps &amp; voice guidance in 9 languages. By M&amp;S.co." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://scooternav.replit.app/" />
+    <meta property="og:image" content="https://scooternav.replit.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ScooterNav app showing a scooter route on a city map with bike lane indicators" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+    <meta property="og:locale:alternate" content="ko_KR" />
+    <meta property="og:locale:alternate" content="fr_FR" />
+    <meta property="og:locale:alternate" content="ar_SA" />
+
+    <!-- ═══════════════════════════════════════════════
+         TWITTER / X CARD
+    ══════════════════════════════════════════════════ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@shanemrussell888" />
+    <meta name="twitter:creator" content="@shanemrussell888" />
+    <meta name="twitter:title" content="ScooterNav – Smart Electric Scooter Navigation" />
+    <meta name="twitter:description" content="Free GPS navigation for electric scooters. Bike lane routing, charging stations, offline maps &amp; voice guidance in 9 languages." />
+    <meta name="twitter:image" content="https://scooternav.replit.app/og-image.png" />
+    <meta name="twitter:image:alt" content="ScooterNav app map view" />
+    <meta name="twitter:app:name:iphone" content="ScooterNav" />
+    <meta name="twitter:app:name:googleplay" content="ScooterNav" />
+
+    <!-- ═══════════════════════════════════════════════
+         PWA / MOBILE APP
+    ══════════════════════════════════════════════════ -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#14b8a6" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="ScooterNav" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta property="og:title" content="ScooterNav by M&amp;S.co" />
-    <meta property="og:description" content="Smart electric scooter navigation with offline maps, voice guidance, and charging station finder." />
-    <meta property="og:type" content="website" />
+    <meta name="msapplication-TileColor" content="#14b8a6" />
+    <meta name="msapplication-TileImage" content="/favicon.png" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- ═══════════════════════════════════════════════
+         GEO / LOCAL SEO
+    ══════════════════════════════════════════════════ -->
+    <meta name="geo.region" content="US" />
+    <meta name="geo.placename" content="United States" />
+
+    <!-- ═══════════════════════════════════════════════
+         STRUCTURED DATA — JSON-LD (MobileApplication + WebApplication)
+    ══════════════════════════════════════════════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://scooternav.replit.app/#webapp",
+          "name": "ScooterNav",
+          "url": "https://scooternav.replit.app/",
+          "description": "Smart GPS navigation for electric scooters featuring bike lane routing, charging station finder, offline maps, voice guidance in 9 languages, and real-time safety alerts.",
+          "applicationCategory": "NavigationApplication",
+          "applicationSubCategory": "Transportation",
+          "operatingSystem": "Web, iOS, Android, Windows, macOS",
+          "browserRequirements": "Requires HTML5, JavaScript enabled",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "featureList": [
+            "Geodesic routing with Haversine calculations",
+            "Bike lane awareness (protected, shared, none)",
+            "EV charging station locator with proximity alerts",
+            "Turn-by-turn voice navigation",
+            "9-language support",
+            "Offline map tile caching",
+            "PWA installable on all platforms",
+            "Multi-stop route planning",
+            "Real-time weather and hazard alerts",
+            "Dark and light mode"
+          ],
+          "screenshot": "https://scooternav.replit.app/og-image.png",
+          "inLanguage": ["en", "es", "zh", "vi", "tl", "ko", "fr", "ar"],
+          "author": {
+            "@type": "Organization",
+            "name": "M&S.co",
+            "url": "https://github.com/shanemrussell888-coder",
+            "email": "shane.m.russell888@gmail.com",
+            "founders": [
+              {
+                "@type": "Person",
+                "name": "Shane Matthew Russell",
+                "email": "shane.m.russell888@gmail.com"
+              },
+              {
+                "@type": "Person",
+                "name": "Manuel Hernandez"
+              }
+            ]
+          },
+          "license": "https://opensource.org/licenses/MIT",
+          "isAccessibleForFree": true,
+          "keywords": "electric scooter, e-scooter navigation, scooter GPS, bike lane map, charging station, offline navigation"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://scooternav.replit.app/#app",
+          "name": "ScooterNav",
+          "applicationCategory": "NavigationApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "1",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://github.com/shanemrussell888-coder#org",
+          "name": "M&S.co",
+          "url": "https://github.com/shanemrussell888-coder",
+          "email": "shane.m.russell888@gmail.com",
+          "sameAs": [
+            "https://github.com/shanemrussell888-coder",
+            "https://github.com/sponsors/shanemrussell888-coder"
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- ═══════════════════════════════════════════════
+         FONTS & EXTERNAL RESOURCES
+    ══════════════════════════════════════════════════ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   </head>
   <body>
     <div id="root"></div>
