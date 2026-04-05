@@ -63,6 +63,13 @@ You agree to indemnify, defend, and hold harmless M&S.co and its owners from any
 
 We reserve the right to modify this disclaimer at any time. Continued use of the Application constitutes acceptance of any changes.
 
+### 10. Contact
+
+To report concerns or ask questions about this disclaimer:
+
+- **Email**: [shane.m.russell888@gmail.com](mailto:shane.m.russell888@gmail.com)
+- **GitHub**: [shanemrussell888-coder](https://github.com/shanemrussell888-coder)
+
 ---
 
 **By using ScooterNav, you acknowledge that you have read, understood, and agree to be bound by this Disclaimer.**

@@ -90,7 +90,11 @@ These Terms, together with our Privacy Policy and Disclaimer, constitute the ent
 
 ## 15. Contact
 
-For questions about these Terms, please contact us through GitHub.
+For questions about these Terms, please reach out:
+
+- **Email**: [shane.m.russell888@gmail.com](mailto:shane.m.russell888@gmail.com)
+- **GitHub**: [shanemrussell888-coder](https://github.com/shanemrussell888-coder)
+- **GitHub Issues**: [github.com/shanemrussell888-coder/scooternav/issues](https://github.com/shanemrussell888-coder/scooternav/issues)
 
 ---
 

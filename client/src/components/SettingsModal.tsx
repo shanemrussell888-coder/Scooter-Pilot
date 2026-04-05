@@ -291,13 +291,28 @@ export function SettingsModal() {
             <Card className="p-3 bg-muted/50">
               <div className="flex items-center gap-2 mb-2">
                 <FileText className="h-4 w-4 text-muted-foreground" />
-                <p className="text-sm font-medium">Ownership & Copyright</p>
+                <p className="text-sm font-medium">Ownership & Contact</p>
               </div>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                ScooterNav is jointly owned by M&S.co - a partnership between 
-                Shane Matthew Russell and Manuel Hernandez. All intellectual property 
-                rights, trademarks, and copyrights are reserved. Version 1.0 (2024).
+              <p className="text-xs text-muted-foreground leading-relaxed mb-2">
+                ScooterNav is jointly owned by M&S.co — a partnership between 
+                Shane Matthew Russell and Manuel Hernandez. All rights reserved. Version 1.0 (2024).
               </p>
+              <div className="flex flex-col gap-1">
+                <button
+                  className="text-xs text-left text-primary hover:underline"
+                  onClick={() => window.open("mailto:shane.m.russell888@gmail.com", "_blank")}
+                  data-testid="link-contact-email"
+                >
+                  ✉ shane.m.russell888@gmail.com
+                </button>
+                <button
+                  className="text-xs text-left text-primary hover:underline"
+                  onClick={() => window.open("https://github.com/shanemrussell888-coder", "_blank")}
+                  data-testid="link-github-profile"
+                >
+                  ⌥ github.com/shanemrussell888-coder
+                </button>
+              </div>
             </Card>
 
             {/* Liability Disclaimer */}
