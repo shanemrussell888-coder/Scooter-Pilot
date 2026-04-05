@@ -115,8 +115,8 @@ export function SettingsModal() {
                 </Button>
               ))}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Note: Map display uses OpenStreetMap. Provider selection affects navigation links.
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              After planning a route in ScooterNav, use the <strong>"Hand off to"</strong> buttons in the route panel or navigation panel to open your full route — with origin + destination pre-filled — directly in Google Maps, Apple Maps, or Waze. Your preferred provider is highlighted by default.
             </p>
           </div>
 

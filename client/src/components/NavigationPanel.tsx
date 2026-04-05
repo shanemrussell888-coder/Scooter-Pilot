@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { ChevronUp, ChevronDown, X, Navigation2, Volume2, VolumeX } from "lucide-react";
+import { ChevronUp, ChevronDown, X, Navigation2, Volume2, VolumeX, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useMapStore } from "@/lib/mapStore";
 import { useSpeech, formatNavigationInstruction, formatLaneAnnouncement } from "@/hooks/use-speech";
+import { openInProvider } from "@/lib/map-integrations";
+import { SiGooglemaps, SiApple, SiWaze } from "react-icons/si";
 
 export function NavigationPanel() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -21,6 +23,11 @@ export function NavigationPanel() {
     setCurrentStepIndex,
     selectedSpeed,
     clearRoute,
+    origin,
+    destination,
+    originName,
+    destinationName,
+    preferences,
   } = useMapStore();
 
   const currentSegment = activeRoute?.segments[currentStepIndex];
@@ -193,6 +200,53 @@ export function NavigationPanel() {
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* Open in External Provider Row */}
+          {origin && destination && (
+            <div className="border-t px-3 py-2 bg-muted/20">
+              <p className="text-[10px] text-muted-foreground mb-1.5 uppercase tracking-wide font-medium">
+                Hand off to
+              </p>
+              <div className="flex gap-1.5">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="flex-1 h-8 gap-1.5 text-xs border-[#4285F4]/30 hover:bg-[#4285F4]/10"
+                  onClick={() => openInProvider("google", { origin, destination, originName, destinationName })}
+                  data-testid="button-handoff-google"
+                  title="Continue in Google Maps"
+                >
+                  <SiGooglemaps className="h-3.5 w-3.5 text-[#4285F4]" />
+                  Google
+                  <ExternalLink className="h-2.5 w-2.5 opacity-50" />
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="flex-1 h-8 gap-1.5 text-xs border-foreground/20 hover:bg-foreground/5"
+                  onClick={() => openInProvider("apple", { origin, destination, originName, destinationName })}
+                  data-testid="button-handoff-apple"
+                  title="Continue in Apple Maps"
+                >
+                  <SiApple className="h-3.5 w-3.5" />
+                  Apple
+                  <ExternalLink className="h-2.5 w-2.5 opacity-50" />
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="flex-1 h-8 gap-1.5 text-xs border-[#33CCFF]/30 hover:bg-[#33CCFF]/10"
+                  onClick={() => openInProvider("waze", { origin, destination, originName, destinationName })}
+                  data-testid="button-handoff-waze"
+                  title="Continue in Waze"
+                >
+                  <SiWaze className="h-3.5 w-3.5 text-[#33CCFF]" />
+                  Waze
+                  <ExternalLink className="h-2.5 w-2.5 opacity-50" />
+                </Button>
+              </div>
             </div>
           )}
 

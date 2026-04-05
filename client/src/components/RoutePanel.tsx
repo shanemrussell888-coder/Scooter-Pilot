@@ -1,16 +1,16 @@
-import { useEffect } from "react";
-import { ChevronDown, ChevronUp, Navigation2, Shield, AlertTriangle, Route } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ChevronDown, ChevronUp, Navigation2, Route, Download, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { useMapStore } from "@/lib/mapStore";
 import { SpeedOptionCards } from "./SpeedOptionCards";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 import type { Route as RouteType } from "@shared/schema";
-import { useState } from "react";
+import { SiGooglemaps, SiApple, SiWaze } from "react-icons/si";
+import { openInProvider, downloadGPX, type MapProvider } from "@/lib/map-integrations";
 
 export function RoutePanel() {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -25,9 +25,10 @@ export function RoutePanel() {
     setActiveRoute,
     selectedSpeed,
     setIsNavigating,
+    preferences,
+    stops,
   } = useMapStore();
 
-  // Fetch route when both origin and destination are set
   const fetchRoute = useMutation({
     mutationFn: async () => {
       if (!origin || !destination) throw new Error("Missing locations");
@@ -66,6 +67,49 @@ export function RoutePanel() {
     setIsNavigating(true);
   };
 
+  const handleOpenInProvider = (provider: MapProvider) => {
+    if (!origin || !destination) return;
+    openInProvider(provider, {
+      origin,
+      destination,
+      originName,
+      destinationName,
+      waypoints: stops.filter(s => s.coordinate.lat !== 0).map(s => s.coordinate),
+    });
+  };
+
+  const handleDownloadGPX = () => {
+    if (!activeRoute) return;
+    downloadGPX(activeRoute, originName, destinationName);
+  };
+
+  const PROVIDER_BUTTONS: { id: MapProvider; label: string; shortLabel: string; Icon: typeof SiGooglemaps; iconClass: string; btnClass: string }[] = [
+    {
+      id: "google",
+      label: "Google Maps",
+      shortLabel: "Google",
+      Icon: SiGooglemaps,
+      iconClass: "text-[#4285F4]",
+      btnClass: "border-[#4285F4]/30 hover:bg-[#4285F4]/10 dark:hover:bg-[#4285F4]/10",
+    },
+    {
+      id: "apple",
+      label: "Apple Maps",
+      shortLabel: "Apple",
+      Icon: SiApple,
+      iconClass: "text-foreground",
+      btnClass: "border-foreground/20 hover:bg-foreground/5",
+    },
+    {
+      id: "waze",
+      label: "Waze",
+      shortLabel: "Waze",
+      Icon: SiWaze,
+      iconClass: "text-[#33CCFF]",
+      btnClass: "border-[#33CCFF]/30 hover:bg-[#33CCFF]/10 dark:hover:bg-[#33CCFF]/10",
+    },
+  ];
+
   return (
     <div className="absolute bottom-0 left-0 right-0 z-20 p-4 pointer-events-none">
       <Card className="pointer-events-auto backdrop-blur-sm bg-card/95 shadow-2xl max-w-lg mx-auto overflow-hidden">
@@ -77,9 +121,7 @@ export function RoutePanel() {
             </div>
             <div className="min-w-0">
               <p className="font-medium truncate">{destinationName}</p>
-              <p className="text-xs text-muted-foreground">
-                from {originName}
-              </p>
+              <p className="text-xs text-muted-foreground">from {originName}</p>
             </div>
           </div>
           <Button
@@ -92,21 +134,20 @@ export function RoutePanel() {
           </Button>
         </div>
 
-        {/* Loading State */}
+        {/* Loading */}
         {fetchRoute.isPending && (
           <div className="p-6 flex flex-col items-center justify-center gap-3">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
-            <p className="text-sm text-muted-foreground">Finding best routes...</p>
+            <p className="text-sm text-muted-foreground">Finding best scooter route...</p>
           </div>
         )}
 
-        {/* Route Content */}
         {activeRoute && (
           <div className="p-4 space-y-4">
             {/* Speed Options */}
             <SpeedOptionCards speedOptions={activeRoute.speedOptions} />
 
-            {/* Route Stats Summary */}
+            {/* Route Stats */}
             <div className="grid grid-cols-3 gap-2 text-center">
               <div className="p-2 rounded-md bg-muted/50">
                 <p className="text-lg font-bold">{formatDistance(activeRoute.totalDistance)}</p>
@@ -126,23 +167,14 @@ export function RoutePanel() {
             <div className="space-y-2">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">Lane Coverage</span>
-                <span className="font-medium text-green-600">
+                <span className="font-medium text-green-600 dark:text-green-400">
                   {Math.round(activeRoute.laneStats.protectedPercent + activeRoute.laneStats.sharedPercent)}% with lanes
                 </span>
               </div>
               <div className="flex h-3 rounded-full overflow-hidden">
-                <div
-                  className="bg-green-500"
-                  style={{ width: `${activeRoute.laneStats.protectedPercent}%` }}
-                />
-                <div
-                  className="bg-yellow-500"
-                  style={{ width: `${activeRoute.laneStats.sharedPercent}%` }}
-                />
-                <div
-                  className="bg-red-500"
-                  style={{ width: `${activeRoute.laneStats.nonePercent}%` }}
-                />
+                <div className="bg-green-500" style={{ width: `${activeRoute.laneStats.protectedPercent}%` }} />
+                <div className="bg-yellow-500" style={{ width: `${activeRoute.laneStats.sharedPercent}%` }} />
+                <div className="bg-red-500" style={{ width: `${activeRoute.laneStats.nonePercent}%` }} />
               </div>
               <div className="flex justify-between text-xs">
                 <div className="flex items-center gap-1">
@@ -160,7 +192,7 @@ export function RoutePanel() {
               </div>
             </div>
 
-            {/* Expandable Details */}
+            {/* Expandable Turn-by-Turn */}
             <Collapsible open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
               <CollapsibleTrigger asChild>
                 <Button
@@ -168,12 +200,8 @@ export function RoutePanel() {
                   className="w-full justify-between"
                   data-testid="button-toggle-route-details"
                 >
-                  <span className="text-sm">Route Details</span>
-                  {isDetailsOpen ? (
-                    <ChevronUp className="h-4 w-4" />
-                  ) : (
-                    <ChevronDown className="h-4 w-4" />
-                  )}
+                  <span className="text-sm">Turn-by-Turn Details</span>
+                  {isDetailsOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent className="space-y-2 pt-2">
@@ -182,15 +210,11 @@ export function RoutePanel() {
                     key={segment.id}
                     className="flex items-center gap-3 p-2 rounded-md bg-muted/30"
                   >
-                    <div
-                      className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                        segment.laneType === "protected"
-                          ? "bg-green-500 text-white"
-                          : segment.laneType === "shared"
-                          ? "bg-yellow-500 text-black"
-                          : "bg-red-500 text-white"
-                      }`}
-                    >
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                      segment.laneType === "protected" ? "bg-green-500 text-white"
+                      : segment.laneType === "shared" ? "bg-yellow-500 text-black"
+                      : "bg-red-500 text-white"
+                    }`}>
                       {index + 1}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -209,10 +233,8 @@ export function RoutePanel() {
                               : "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300"
                           }`}
                         >
-                          {segment.laneType === "protected"
-                            ? "Bike Lane"
-                            : segment.laneType === "shared"
-                            ? "Shared Lane"
+                          {segment.laneType === "protected" ? "Bike Lane"
+                            : segment.laneType === "shared" ? "Shared Lane"
                             : "No Lane"}
                         </Badge>
                       </div>
@@ -222,7 +244,44 @@ export function RoutePanel() {
               </CollapsibleContent>
             </Collapsible>
 
-            {/* Start Navigation Button */}
+            {/* ── Open in External Providers ── */}
+            <div className="space-y-2 pt-1">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                Continue in your preferred map
+              </p>
+              <div className="grid grid-cols-3 gap-2">
+                {PROVIDER_BUTTONS.map(({ id, label, shortLabel, Icon, iconClass, btnClass }) => (
+                  <Button
+                    key={id}
+                    variant="outline"
+                    size="sm"
+                    className={`flex flex-col h-auto py-2 gap-1 text-xs ${btnClass}`}
+                    onClick={() => handleOpenInProvider(id)}
+                    data-testid={`button-open-in-${id}`}
+                    title={`Open this route in ${label}`}
+                  >
+                    <Icon className={`h-4 w-4 ${iconClass}`} />
+                    <span>{shortLabel}</span>
+                    <ExternalLink className="h-2.5 w-2.5 text-muted-foreground" />
+                  </Button>
+                ))}
+              </div>
+
+              {/* GPX Export */}
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full gap-2 text-xs border-dashed"
+                onClick={handleDownloadGPX}
+                data-testid="button-export-gpx"
+                title="Download route as GPX — compatible with Google Maps, Waze, Garmin, and all major navigation apps"
+              >
+                <Download className="h-3.5 w-3.5" />
+                Export route as GPX (universal format)
+              </Button>
+            </div>
+
+            {/* Start ScooterNav Navigation */}
             <Button
               className="w-full h-12"
               size="lg"
@@ -230,7 +289,7 @@ export function RoutePanel() {
               data-testid="button-start-navigation"
             >
               <Navigation2 className="h-5 w-5 mr-2" />
-              Start Navigation
+              Start ScooterNav Navigation
               {currentSpeedOption && (
                 <span className="ml-2 text-sm opacity-80">
                   ({Math.round(currentSpeedOption.estimatedMinutes)} min)
