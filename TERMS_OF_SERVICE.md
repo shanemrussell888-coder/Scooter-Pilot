@@ -14,16 +14,44 @@ ScooterNav is owned and operated by **M&S.co**, a partnership consisting of:
 
 All intellectual property rights in the Application, including but not limited to software, design, graphics, and content, are owned by M&S.co.
 
-## 2. Use License
+## 2. Proprietary Software — Intellectual Property Rights
 
-Subject to these Terms, we grant you a limited, non-exclusive, non-transferable, revocable license to use the Application for personal, non-commercial purposes.
+ScooterNav is **proprietary software**. All rights are reserved.
 
-You may NOT:
-- Copy, modify, or distribute the Application without permission
+This Application and all of its components — including but not limited to source code, object code, algorithms, data models, routing logic, design systems, user interface, graphics, branding, trade dress, and documentation — constitute the exclusive intellectual property of M&S.co and are protected under:
+
+- The **U.S. Copyright Act** (17 U.S.C. § 101 et seq.)
+- The **Defend Trade Secrets Act** (18 U.S.C. § 1836 et seq.)
+- The **Computer Fraud and Abuse Act** (18 U.S.C. § 1030)
+- Applicable international intellectual property treaties
+
+### End-User License
+
+Subject to these Terms, we grant you a limited, non-exclusive, non-transferable, revocable license to use the compiled, deployed ScooterNav application **solely for personal, non-commercial navigation purposes**.
+
+### Strictly Prohibited Without Written Agreement
+
+You may **NOT**, without a prior signed and notarized written agreement with M&S.co:
+
+- Copy, reproduce, or duplicate this Application in whole or in part
+- Modify, adapt, translate, or create derivative works
 - Reverse engineer, decompile, or disassemble the Application
-- Use the Application for any illegal purpose
-- Remove any copyright or proprietary notices
-- Transfer your license to another party
+- Distribute, publish, sublicense, sell, or transfer any rights
+- Use the Application or its components for commercial purposes
+- Incorporate this Application or its components into any other product, service, platform, API, or SDK
+- White-label, rebrand, or deploy this Application under any other name
+- Use this Application as a basis for competing or similar products
+- Remove, alter, or obscure any copyright or proprietary notices
+
+### Corporate & Commercial Use
+
+Any use by a corporation, LLC, non-profit, government entity, or organization — including but not limited to technology companies such as Google LLC, Waze Mobile Limited, Apple Inc., Meta Platforms Inc., Microsoft Corporation, Uber Technologies Inc., Lyft Inc., or any entity in the navigation, mapping, ride-share, or micro-mobility sector — is strictly prohibited without a fully executed written agreement that is:
+
+**(a)** in writing,  
+**(b)** signed by an authorized representative of M&S.co, **AND**  
+**(c)** notarized by a licensed notary public in the presence of all parties.
+
+Violation of this section constitutes willful copyright infringement and misappropriation of trade secrets, subjecting the violating party to statutory damages of up to $150,000 per infringed work under 17 U.S.C. § 504(c)(2), plus attorney's fees and all other available remedies.
 
 ## 3. User Conduct
 

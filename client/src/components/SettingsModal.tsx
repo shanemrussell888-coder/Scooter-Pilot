@@ -1,4 +1,4 @@
-import { X, Gauge, Map, Bike, Battery, Moon, Sun, AlertTriangle, Info, Heart, ExternalLink, FileText, Github, DollarSign } from "lucide-react";
+import { X, Gauge, Map, Bike, Battery, Moon, Sun, AlertTriangle, Info, Heart, ExternalLink, FileText, Github, DollarSign, Briefcase, Shield, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -280,6 +280,41 @@ export function SettingsModal() {
 
           <Separator />
 
+          {/* Business & Partnership Inquiries */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Briefcase className="h-5 w-5 text-blue-500" />
+              <Label>Business & Integration Inquiries</Label>
+            </div>
+            <Card className="p-3 bg-gradient-to-br from-blue-950/40 to-indigo-900/20 border-blue-800/50">
+              <p className="text-xs font-semibold text-blue-400 mb-1 uppercase tracking-wide">For Companies & Organizations</p>
+              <p className="text-xs text-muted-foreground leading-relaxed mb-3">
+                Interested in licensing ScooterNav's routing engine, integrating it into your navigation platform, or discussing acquisition? M&S.co welcomes serious partnership inquiries from technology companies, mapping providers, and mobility platforms.
+              </p>
+              <p className="text-[10px] text-amber-400/90 leading-relaxed mb-3 border border-amber-700/40 rounded p-2 bg-amber-950/20">
+                <strong>Legal Notice:</strong> All integration, licensing, or acquisition of ScooterNav requires a fully executed, signed, and notarized written agreement. No rights are granted by preliminary discussion. ScooterNav is proprietary software — all rights reserved.
+              </p>
+              <Button
+                variant="outline"
+                className="w-full justify-start gap-3 border-blue-700/50 hover:bg-blue-900/30 text-foreground"
+                onClick={() => window.open(
+                  "mailto:shane.m.russell888@gmail.com?subject=ScooterNav%20Business%2FIntegration%20Inquiry&body=Company%20Name%3A%0AInquiry%20Type%20(Licensing%2FIntegration%2FAcquisition%2FPartnership)%3A%0ADetails%3A",
+                  "_blank"
+                )}
+                data-testid="button-business-inquiry"
+              >
+                <Mail className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                <div className="text-left">
+                  <p className="text-sm font-medium">Submit a Business Inquiry</p>
+                  <p className="text-xs text-muted-foreground">shane.m.russell888@gmail.com</p>
+                </div>
+                <ExternalLink className="h-3 w-3 ml-auto text-muted-foreground" />
+              </Button>
+            </Card>
+          </div>
+
+          <Separator />
+
           {/* About & Legal */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
@@ -290,13 +325,16 @@ export function SettingsModal() {
             {/* Ownership */}
             <Card className="p-3 bg-muted/50">
               <div className="flex items-center gap-2 mb-2">
-                <FileText className="h-4 w-4 text-muted-foreground" />
-                <p className="text-sm font-medium">Ownership & Contact</p>
+                <Shield className="h-4 w-4 text-primary" />
+                <p className="text-sm font-medium">Ownership & Intellectual Property</p>
               </div>
-              <p className="text-xs text-muted-foreground leading-relaxed mb-2">
-                ScooterNav is jointly owned by M&S.co — a partnership between 
-                Shane Matthew Russell and Manuel Hernandez. All rights reserved. Version 1.0 (2024).
+              <p className="text-xs text-muted-foreground leading-relaxed mb-1">
+                ScooterNav is <strong>proprietary software</strong> exclusively owned by M&S.co — a partnership between <strong>Shane Matthew Russell</strong> and <strong>Manuel Hernandez</strong>.
               </p>
+              <p className="text-xs text-muted-foreground leading-relaxed mb-2">
+                All source code, design, algorithms, and trade dress are protected under U.S. copyright law. No reproduction, redistribution, or commercial use is permitted without a signed and notarized agreement.
+              </p>
+              <p className="text-[10px] text-muted-foreground mb-2">© 2024 M&S.co — All Rights Reserved.</p>
               <div className="flex flex-col gap-1">
                 <button
                   className="text-xs text-left text-primary hover:underline"
