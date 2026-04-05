@@ -4,7 +4,9 @@
 
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/shanemrussell888-coder?style=for-the-badge&logo=githubsponsors&logoColor=white&color=EA4AAA&label=Sponsor)](https://github.com/sponsors/shanemrussell888-coder)
 [![CashApp](https://img.shields.io/badge/CashApp-%24ManSco0311-00D632?style=for-the-badge&logo=cashapp&logoColor=white)](https://cash.app/$ManSco0311)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
+[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg?style=for-the-badge)](./LICENSE)
+[![IP Protected](https://img.shields.io/badge/IP-Protected%20%7C%20All%20Rights%20Reserved-blue.svg?style=for-the-badge)](./NOTICE)
+[![Partnership Inquiries](https://img.shields.io/badge/Business-Partnership%20Inquiries%20Open-green.svg?style=for-the-badge)](./PARTNERSHIP_INQUIRIES.md)
 
 A comprehensive electric scooter navigation application featuring intelligent routing, charging station locations, voice navigation, offline maps, and multi-language support.
 
@@ -110,9 +112,23 @@ ScooterNav is provided for informational and navigation assistance purposes only
 
 ---
 
-## Contact
+## Partnership & Business Inquiries
 
-For questions, support, or business inquiries:
+M&S.co welcomes serious business inquiries from technology companies, mapping platforms, and mobility operators interested in:
+
+- **API / SDK Licensing** — License ScooterNav's routing engine or lane-awareness logic
+- **Platform Integration** — Integrate scooter-specific navigation into your existing maps product
+- **Acquisition** — Full acquisition of the ScooterNav product, IP, and brand
+- **White-Label Partnership** — Deploy ScooterNav under your brand
+- **Strategic Investment** — Equity or revenue-share arrangements
+
+> All integration, licensing, or acquisition requires a **fully executed, signed, and notarized written agreement**. No rights are granted by preliminary discussion alone. See [PARTNERSHIP_INQUIRIES.md](./PARTNERSHIP_INQUIRIES.md) for details.
+
+Submit inquiries: [shane.m.russell888@gmail.com](mailto:shane.m.russell888@gmail.com?subject=ScooterNav%20Business%20Inquiry)
+
+---
+
+## Contact
 
 - **Email**: [shane.m.russell888@gmail.com](mailto:shane.m.russell888@gmail.com)
 - **GitHub**: [@shanemrussell888-coder](https://github.com/shanemrussell888-coder)
@@ -120,5 +136,6 @@ For questions, support, or business inquiries:
 
 ---
 
-**Copyright 2024 M&S.co. All rights reserved.**  
-*Shane Matthew Russell & Manuel Hernandez*
+**Copyright 2024 M&S.co. All Rights Reserved.**  
+*Shane Matthew Russell & Manuel Hernandez*  
+*Proprietary Software — Unauthorized use is strictly prohibited. See [LICENSE](./LICENSE).*

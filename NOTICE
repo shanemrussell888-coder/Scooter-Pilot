@@ -1,0 +1,52 @@
+================================================================================
+OFFICIAL NOTICE OF PROPRIETARY RIGHTS
+ScooterNav — Smart Electric Scooter Navigation
+================================================================================
+
+COPYRIGHT NOTICE
+────────────────
+Copyright © 2024 M&S.co. All Rights Reserved.
+
+This software product, ScooterNav, including all source code, design elements,
+algorithms, data structures, and associated documentation, is the exclusive
+intellectual property of M&S.co.
+
+OWNERS OF RECORD
+────────────────
+  Shane Matthew Russell  |  DOB: 03/15/1988
+  Manuel Hernandez        |  DOB: 11/17/1986
+
+JOINT PARTNERSHIP: M&S.co
+
+FIRST PUBLICATION
+─────────────────
+  Date of First Publication: 2024
+  Country of First Publication: United States of America
+  Registration: All rights reserved under U.S. and international copyright law
+  from the moment of creation (17 U.S.C. § 302)
+
+THIRD-PARTY COMPONENTS
+───────────────────────
+This product includes third-party open-source components listed below.
+Their inclusion does NOT extend any open-source license to the ScooterNav
+application itself, which remains fully proprietary:
+
+  • Leaflet.js (BSD 2-Clause) — map rendering
+  • OpenStreetMap data (ODbL) — map tile data
+  • React (MIT) — UI framework
+  • Tailwind CSS (MIT) — styling
+  • Lucide Icons (ISC) — iconography
+
+The foregoing open-source components are used pursuant to their respective
+licenses. ScooterNav's proprietary source code, product design, business logic,
+routing algorithms, and trade dress remain exclusively owned by M&S.co.
+
+CONTACT FOR LICENSING
+─────────────────────
+  Email:  shane.m.russell888@gmail.com
+  GitHub: https://github.com/shanemrussell888-coder
+
+================================================================================
+© 2024 M&S.co — Shane Matthew Russell & Manuel Hernandez
+UNAUTHORIZED REPRODUCTION OR DISTRIBUTION IS STRICTLY PROHIBITED
+================================================================================
