@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { MapView } from "@/components/MapView";
 import { SearchBar } from "@/components/SearchBar";
 import { RoutePanel } from "@/components/RoutePanel";
@@ -9,7 +9,9 @@ import { QuickDestinations } from "@/components/QuickDestinations";
 import { NavigationPanel } from "@/components/NavigationPanel";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageToggle } from "@/components/LanguageToggle";
+import { OfflineMapModal } from "@/components/OfflineMapModal";
 import { useMapStore } from "@/lib/mapStore";
+import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { X, Navigation, Zap, Star, MapPin } from "lucide-react";
@@ -21,8 +23,16 @@ type ChargingStationWithDistance = ChargingStation & { distance: number };
 export default function Home() {
   const { isNavigating, currentLocation } = useMapStore();
   const [showStations, setShowStations] = useState(false);
+  const [showOfflineMap, setShowOfflineMap] = useState(false);
   const [stations, setStations] = useState<ChargingStationWithDistance[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const handleOpenOfflineMap = useCallback(() => setShowOfflineMap(true), []);
+
+  useKeyboardShortcuts({
+    onToggleOfflineMap: handleOpenOfflineMap,
+    onToggleChargingStations: () => setShowStations((s) => !s),
+  });
 
   const fetchNearbyStations = async () => {
     if (!currentLocation) {
@@ -121,10 +131,13 @@ export default function Home() {
       <SafetyPanel />
 
       {/* Floating Actions */}
-      <FloatingActions />
+      <FloatingActions onOpenOfflineMap={handleOpenOfflineMap} />
 
       {/* Settings Modal */}
       <SettingsModal />
+
+      {/* Offline Map Modal */}
+      <OfflineMapModal open={showOfflineMap} onClose={() => setShowOfflineMap(false)} />
 
       {/* Lane Legend - Bottom Left */}
       {!isNavigating && (
