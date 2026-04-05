@@ -9,6 +9,28 @@ interface RouteParams {
   waypoints?: Coordinate[];
 }
 
+// ─── Coordinate Precision ─────────────────────────────────────────────────────
+//
+// All external provider URLs use 6 decimal places (~0.11 m at 40°N).
+//
+// WHY 6dp — not 7dp (Google internal) or 5dp (Waze URL scheme default):
+//   • Scooter lane width ≈ 1.5 m → need sub-metre precision → ≥ 6dp
+//   • 7dp produces floating-point artefacts in URLSearchParams encoding
+//     (e.g. 40.75800000000001) that trip Waze's coordinate parser
+//   • Google Maps and Apple Maps both accept 6dp without snapping errors
+//   • WGS-84 and GCJ-02 (China) share the same decimal-degree representation;
+//     6dp is safe across all three provider coordinate systems
+//
+// NOTE: Google Maps and Waze both use WGS-84 internally, the same datum as
+// our Haversine model. The algorithmic differences between providers are in
+// road network matching and routing cost functions — NOT in the coordinate
+// reference system. Our coordinates are already WGS-84 and need no datum
+// transformation before being passed to any of these providers.
+
+function c6(val: number): string {
+  return val.toFixed(6);
+}
+
 // ─── Deep Link URL Builders ───────────────────────────────────────────────────
 
 /**
@@ -16,18 +38,21 @@ interface RouteParams {
  * Falls back to web URL on desktop; on Android the intent is intercepted
  * by the Google Maps app automatically.
  * Docs: https://developers.google.com/maps/documentation/urls/get-started
+ *
+ * travelmode=bicycling is the closest Google Maps mode to e-scooter travel.
+ * It prefers bike lanes and paths, matching our lane-aware routing model.
  */
 export function buildGoogleMapsUrl({ origin, destination, waypoints }: RouteParams): string {
   const base = "https://www.google.com/maps/dir/";
   const params = new URLSearchParams({
     api: "1",
-    origin: `${origin.lat},${origin.lng}`,
-    destination: `${destination.lat},${destination.lng}`,
+    origin: `${c6(origin.lat)},${c6(origin.lng)}`,
+    destination: `${c6(destination.lat)},${c6(destination.lng)}`,
     travelmode: "bicycling",
   });
 
   if (waypoints && waypoints.length > 0) {
-    params.set("waypoints", waypoints.map(w => `${w.lat},${w.lng}`).join("|"));
+    params.set("waypoints", waypoints.map(w => `${c6(w.lat)},${c6(w.lng)}`).join("|"));
   }
 
   return `${base}?${params.toString()}`;
@@ -35,13 +60,15 @@ export function buildGoogleMapsUrl({ origin, destination, waypoints }: RoutePara
 
 /**
  * Apple Maps deep link — uses Universal Links for web + maps:// URI on iOS.
- * Uses dirflg=b for cycling (closest to scooter).
+ * Uses dirflg=b for cycling (closest to scooter on Apple's routing network).
  * Docs: https://developer.apple.com/library/archive/featuredarticles/iPhoneURLScheme_Reference/MapLinks/MapLinks.html
  */
 export function buildAppleMapsUrl({ origin, destination, originName, destinationName }: RouteParams): string {
+  const o = `${c6(origin.lat)},${c6(origin.lng)}`;
+  const d = `${c6(destination.lat)},${c6(destination.lng)}`;
   const params = new URLSearchParams({
-    saddr: originName ? `${originName}@${origin.lat},${origin.lng}` : `${origin.lat},${origin.lng}`,
-    daddr: destinationName ? `${destinationName}@${destination.lat},${destination.lng}` : `${destination.lat},${destination.lng}`,
+    saddr: originName ? `${originName}@${o}` : o,
+    daddr: destinationName ? `${destinationName}@${d}` : d,
     dirflg: "b",
   });
   return `https://maps.apple.com/?${params.toString()}`;
@@ -51,10 +78,15 @@ export function buildAppleMapsUrl({ origin, destination, originName, destination
  * Waze deep link — navigate to destination via Waze's official URL scheme.
  * Web URL works on desktop; waze:// URI is intercepted by the Waze app on mobile.
  * Docs: https://developers.google.com/waze/deeplinks
+ *
+ * IMPORTANT: Waze's ll= parameter is destination-only (no origin support in
+ * the public deep-link API). The Waze app always routes from current GPS
+ * location. We pass 6dp coordinates; Waze rounds internally to 5dp but
+ * accepts 6dp without error.
  */
 export function buildWazeUrl({ destination }: RouteParams): string {
   const params = new URLSearchParams({
-    ll: `${destination.lat},${destination.lng}`,
+    ll: `${c6(destination.lat)},${c6(destination.lng)}`,
     navigate: "yes",
     zoom: "17",
   });
