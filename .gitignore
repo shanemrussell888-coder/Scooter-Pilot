@@ -1,0 +1,32 @@
+
+</details>
+
+4. Scroll down → click **"Commit changes"** → **"Commit directly to main"** → ✅ **Commit**
+
+---
+
+### STEP 3 — Add topics to the repo
+1. On the repo page, click the ⚙️ gear icon next to **"About"** (top right)
+2. Add these topics: `electric-scooter` `gps-navigation` `pwa` `micro-mobility` `javascript` `offline-maps`
+3. Set **Website** to: `https://scooter-pilot--shanemrussell88.replit.app`
+4. Click **Save changes**
+
+---
+
+### STEP 4 — Migrate source code from Replit
+1. In Replit, open your Scooter Pilot project
+2. **Files panel → ⋮ (3 dots) → Download as zip**
+3. Extract the zip on your PC
+4. On GitHub in your new repo → **"Add file" → "Upload files"**
+5. Drag all your extracted source files in → **Commit changes**
+
+---
+
+### STEP 5 — Add MIT License file
+1. In your repo click **"Add file" → "Create new file"**
+2. Name it `LICENSE`
+3. Click **"Choose a license template"** → select **MIT** → fill your name → **Review and submit**
+
+---
+
+**The README is fully written with all legal fields ✅** — once you do those 5 steps your repo will be complete and professional. Let me know when it's up and I'll verify it looks right!
