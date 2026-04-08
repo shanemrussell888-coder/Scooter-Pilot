@@ -1,6 +1,3 @@
-# Scooter-Pilot
-Repository for https://replit.com/@shanemrussell88/Scooter-Pilot
-# ScooterNav — Scooter Pilot
 # ScooterNav — Scooter Pilot
 
 > Smart GPS navigation for electric scooters featuring bike lane routing, charging station finder, offline maps, voice guidance in 9 languages, and real-time safety alerts.
@@ -11,29 +8,6 @@ Repository for https://replit.com/@shanemrussell88/Scooter-Pilot
 [![Rating: 4.8/5](https://img.shields.io/badge/Rating-4.8%2F5-brightgreen.svg)]()
 
 ---
-
-
-Legal Disclaimer
-Navigation Safety: ScooterNav is provided as a navigational aid only. Users are solely responsible for their own safety while operating an electric scooter or any other vehicle. Always obey local traffic laws, speed limits, and road regulations. Do not use this application in a manner that distracts you from safe operation of your vehicle.
-
-Accuracy: While ScooterNav strives to provide accurate routing, bike lane, and charging station data, M&S.co makes no warranties or representations regarding the accuracy, completeness, or timeliness of any information provided. Map data and road conditions may be outdated or incorrect. Always verify routing with your own judgment.
-
-Third-Party Data: ScooterNav may use third-party map data, APIs, and location services. M&S.co is not responsible for the accuracy or availability of third-party data sources.
-
-No Warranty: This software is provided "as is," without warranty of any kind, express or implied. M&S.co shall not be held liable for any damages, injuries, fines, or losses arising from use of this application.
-
-Privacy: This application may request access to your device's location (GPS) data solely for navigation purposes. Location data is used in real time and is not stored, sold, or shared with third parties.
-
-Jurisdiction: This software is developed in California, USA. Users outside the United States are responsible for compliance with their own local laws and regulations regarding electric scooter operation and GPS navigation tools.
-
-Contact
-Email: shane.m.russell888@gmail.com
-GitHub: https://github.com/shanemrussell888-coder
-Live App: https://scooter-pilot--shanemrussell88.replit.app
-Organization: M&S.co
-Built with passion in California. Free for everyone.
-
-
 
 ## Table of Contents
 
@@ -138,27 +112,3 @@ cd Scooter-Pilot
 npx serve .
 # or
 python -m http.server 8080
-
-
-MIT License
-
-Copyright (c) 2024-2026 Shane Matthew Russell & Manuel Hernandez (M&S.co)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
