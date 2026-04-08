@@ -12,6 +12,29 @@ Repository for https://replit.com/@shanemrussell88/Scooter-Pilot
 
 ---
 
+
+Legal Disclaimer
+Navigation Safety: ScooterNav is provided as a navigational aid only. Users are solely responsible for their own safety while operating an electric scooter or any other vehicle. Always obey local traffic laws, speed limits, and road regulations. Do not use this application in a manner that distracts you from safe operation of your vehicle.
+
+Accuracy: While ScooterNav strives to provide accurate routing, bike lane, and charging station data, M&S.co makes no warranties or representations regarding the accuracy, completeness, or timeliness of any information provided. Map data and road conditions may be outdated or incorrect. Always verify routing with your own judgment.
+
+Third-Party Data: ScooterNav may use third-party map data, APIs, and location services. M&S.co is not responsible for the accuracy or availability of third-party data sources.
+
+No Warranty: This software is provided "as is," without warranty of any kind, express or implied. M&S.co shall not be held liable for any damages, injuries, fines, or losses arising from use of this application.
+
+Privacy: This application may request access to your device's location (GPS) data solely for navigation purposes. Location data is used in real time and is not stored, sold, or shared with third parties.
+
+Jurisdiction: This software is developed in California, USA. Users outside the United States are responsible for compliance with their own local laws and regulations regarding electric scooter operation and GPS navigation tools.
+
+Contact
+Email: shane.m.russell888@gmail.com
+GitHub: https://github.com/shanemrussell888-coder
+Live App: https://scooter-pilot--shanemrussell88.replit.app
+Organization: M&S.co
+Built with passion in California. Free for everyone.
+
+
+
 ## Table of Contents
 
 - [About](#about)
